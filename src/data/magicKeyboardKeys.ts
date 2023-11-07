@@ -5,7 +5,7 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["Escape"],
       label: ["esc"],
-      width: 1,
+      mmWidth: 25.44,
     },
     {
       keyNames: ["F1"],
@@ -54,6 +54,10 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["F12"],
       label: ["F12"],
+    },
+    {
+      keyNames: ["Lock"],
+      label: ["lock"],
     },
   ],
   [
@@ -112,13 +116,14 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["Backspace"],
       label: ["delete"],
-      width: 2,
+      mmWidth: 25.43,
     },
   ],
   [
     {
       keyNames: ["Tab"],
       label: ["tab"],
+      mmWidth: 25.43,
     },
     {
       keyNames: ["q"],
@@ -177,6 +182,7 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["CapsLock"],
       label: ["caps lock"],
+      mmWidth: 30.15,
     },
     {
       keyNames: ["a"],
@@ -225,13 +231,14 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["Enter"],
       label: ["enter"],
-      width: 1,
+      mmWidth: 30.15,
     },
   ],
   [
     {
       keyNames: ["Shift"],
       label: ["shift"],
+      mmWidth: 39.66,
     },
     {
       keyNames: ["z"],
@@ -276,7 +283,7 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["Shift"],
       label: ["shift"],
-      width: 2,
+      mmWidth: 39.66,
     },
   ],
   [
@@ -295,15 +302,17 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     {
       keyNames: ["Meta"],
       label: ["command"],
+      mmWidth: 20.75,
     },
     {
       keyNames: [" "],
       label: [""],
-      width: 4,
+      mmWidth: 91.95,
     },
     {
       keyNames: ["Meta"],
       label: ["command"],
+      mmWidth: 20.75,
     },
     {
       keyNames: ["Alt"],
@@ -317,10 +326,12 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
       {
         keyNames: ["ArrowUp"],
         label: ["↑"],
+        mmHeight: 7.46,
       },
       {
         keyNames: ["ArrowDown"],
         label: ["↓"],
+        mmHeight: 7.46,
       },
     ],
     {

@@ -10,7 +10,6 @@ export const App = () => {
   const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
 
   useEffect(() => {
-    console.log({ os, browser })
     const handleKeyboardEvent = (event: KeyboardEvent) => {
       event.preventDefault()
       setKeyboardEvent(event)

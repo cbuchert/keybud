@@ -1,5 +1,6 @@
 export type KeyDefinition = {
   keyNames: string[]
   label: string[]
-  width?: number
+  mmWidth?: number
+  mmHeight?: number
 }

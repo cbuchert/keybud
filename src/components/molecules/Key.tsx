@@ -4,12 +4,20 @@ import { KeyDefinition } from "../../types/KeyDefinition.ts"
 
 type Props = {
   keyDefinition: KeyDefinition
+  defaultMMWidth: number
+  defaultMMHeight: number
+  mmBorderRadius: number
+  unitLength: number
   onClick: () => void
   keyboardEvent: KeyboardEvent | null
 }
 
 export const Key: FC<Props> = ({
-  keyDefinition: { keyNames, label, width = 1 },
+  keyDefinition: { keyNames, label, mmWidth, mmHeight },
+  defaultMMHeight,
+  defaultMMWidth,
+  mmBorderRadius,
+  unitLength,
   onClick,
   keyboardEvent,
 }) => {
@@ -26,6 +34,7 @@ export const Key: FC<Props> = ({
 
     return (
       keyNames.includes(keyboardEvent.key) ||
+      keyNames.includes(keyboardEvent.key.toLocaleLowerCase()) ||
       (isAlt && keyboardEvent.altKey) ||
       (isShift && keyboardEvent.shiftKey) ||
       (isControl && keyboardEvent.ctrlKey) ||
@@ -34,13 +43,21 @@ export const Key: FC<Props> = ({
   })()
   const [primaryLabel, secondaryLabel] = label
 
+  const keyWidth = (mmWidth || defaultMMWidth) * unitLength
+  const keyHeight = (mmHeight || defaultMMHeight) * unitLength
+
   return (
     <button
       type={"button"}
       className={classNames(
-        "flex flex-col justify-center items-center rounded h-12 w-12 text-gray-600",
-        isPressed ? "bg-blue-400" : "bg-white"
+        "flex flex-col justify-center items-center text-gray-600 border border-gray-400",
+        isPressed ? "bg-sky-300" : "bg-white"
       )}
+      style={{
+        width: `${keyWidth}rem`,
+        height: `${keyHeight}rem`,
+        borderRadius: `${mmBorderRadius * unitLength}rem`,
+      }}
       onClick={onClick}
     >
       {secondaryLabel && <span className={"text-sm"}>{secondaryLabel}</span>}
