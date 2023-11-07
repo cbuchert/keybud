@@ -1,28 +1,32 @@
-import { useEffect } from 'react'
-import UAParser from 'ua-parser-js'
+import { useEffect, useState } from "react"
+import UAParser from "ua-parser-js"
+import { MagicKeyboard } from "./components/MagicKeyboard.tsx"
 
 const parser = new UAParser()
 const browser = parser.getBrowser()
 const os = parser.getOS()
 
 export const App = () => {
+  const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
+
   useEffect(() => {
     console.log({ os, browser })
     const handleKeyboardEvent = (event: KeyboardEvent) => {
       event.preventDefault()
+      setKeyboardEvent(event)
       console.log(event.key)
     }
 
-    document.addEventListener('keydown', handleKeyboardEvent)
+    document.addEventListener("keydown", handleKeyboardEvent)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyboardEvent)
+      document.removeEventListener("keydown", handleKeyboardEvent)
     }
   }, [])
 
   return (
     <>
-      <h1>Sanity check.</h1>
+      <MagicKeyboard keyboardEvent={keyboardEvent} />
     </>
   )
 }
