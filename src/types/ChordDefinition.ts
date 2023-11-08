@@ -1,9 +1,12 @@
+import { Browser } from "../data/browsers.ts"
+import { Language } from "../data/languages.ts"
+import { Os } from "../data/oses.ts"
 import { Chord } from "./Chord.ts"
 
 export type ChordDefinition = {
-  language: "en"
-  os: ("Windows" | "Mac OS" | "Linux")[]
-  browser: "Chrome" | "Firefox" | "Safari" | "Edge"
+  language: Language
+  os: Os
+  browser: Browser
   description: string
   chord: Chord
 }
