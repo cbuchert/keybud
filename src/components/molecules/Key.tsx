@@ -30,7 +30,6 @@ export const Key: FC<Props> = ({
   const primaryKeyFontsizeMultiplier = 4
   const secondaryKeyFontSizeMultiplier = 3.5
 
-  isTaken && console.log(primaryLabel, isTaken)
   return (
     <button
       type={"button"}
@@ -39,7 +38,7 @@ export const Key: FC<Props> = ({
         isPressed
           ? isTaken
             ? "bg-red-400 text-gray-900"
-            : "bg-sky-300"
+            : "bg-sky-300 text-gray-900"
           : "bg-white",
         isPressed ? "shadow-md" : "shadow-sm"
       )}
