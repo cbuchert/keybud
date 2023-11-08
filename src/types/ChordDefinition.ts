@@ -1,7 +1,7 @@
-import { Browser } from "../data/browsers.ts"
 import { Language } from "../data/languages.ts"
-import { Os } from "../data/oses.ts"
+import { Browser } from "./Browser.ts"
 import { Chord } from "./Chord.ts"
+import { Os } from "./Os.ts"
 
 export type ChordDefinition = {
   language: Language

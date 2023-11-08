@@ -4,9 +4,13 @@ import UAParser from "ua-parser-js"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { MagicKeyboard } from "./components/MagicKeyboard.tsx"
 import { Collision } from "./components/molecules/Collision.tsx"
+import { KeyboardEventChord } from "./components/molecules/KeyboardEventChord.tsx"
+import { browsers } from "./data/browsers.ts"
 import chromeKeyChords from "./data/chrome.json"
-import { Os, oses } from "./data/oses.ts"
+import { oses } from "./data/oses.ts"
+import { Browser } from "./types/Browser.ts"
 import { ChordDefinition } from "./types/ChordDefinition.ts"
+import { Os } from "./types/Os.ts"
 import { getCollisions } from "./utils/getCollisions.ts"
 
 const parser = new UAParser()
@@ -15,13 +19,16 @@ const os = parser.getOS()
 
 export const App = () => {
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
+  const [omittedBrowsers, setOmittedBrowsers] = useState<Browser[]>([])
   const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
   const collisions = getCollisions(
     keyboardEvent,
     chromeKeyChords as ChordDefinition[],
-    omittedOses
+    omittedOses,
+    omittedBrowsers
   )
   const unitLength = 0.25
+
   const osCollisionCount = collisions.reduce((acc, curr) => {
     return acc.add(curr.os)
   }, new Set<string>()).size
@@ -56,41 +63,6 @@ export const App = () => {
     }
   }, [])
 
-  const generateKeyCombo = (event: KeyboardEvent | null) => {
-    if (!event)
-      return (
-        <p className={"text-gray-400"}>Press some keys to see what happpens.</p>
-      )
-    const modifiers = [
-      { key: "ctrlKey", label: "Ctrl" },
-      { key: "altKey", label: "Alt" },
-      { key: "shiftKey", label: "Shift" },
-      { key: "metaKey", label: "Meta" },
-    ] as { key: keyof KeyboardEvent; label: string }[]
-    const activeModifiers = modifiers
-      .filter((modifierKey) => event[modifierKey.key])
-      .map((modifierKey) => modifierKey.label)
-    const key = (() => {
-      if (
-        event.key === "Control" ||
-        event.key === "Alt" ||
-        event.key === "Shift" ||
-        event.key === "Meta"
-      ) {
-        return ""
-      }
-
-      const concatenator = activeModifiers.length ? " + " : ""
-
-      return `${concatenator} ${event.key === " " ? "Space" : event.key}`
-    })()
-
-    const keyCombo =
-      (activeModifiers.length ? activeModifiers.join(" + ") : "") + key
-
-    return <h2 className={"text-3xl font-bold mb-4"}>{keyCombo}</h2>
-  }
-
   return (
     <div className={"mx-8 mt-12"}>
       <nav className={"mb-8"}>
@@ -121,6 +93,27 @@ export const App = () => {
             ))}
           </div>
         </div>
+        <div>
+          <p>Browsers to include:</p>
+          <div className={"flex gap-2"}>
+            {browsers.map((browser) => (
+              <TokenToggle
+                isChecked={!omittedBrowsers.includes(browser)}
+                onChange={() => {
+                  setOmittedBrowsers((previousOmittedBrowsers) => {
+                    return previousOmittedBrowsers.includes(browser)
+                      ? previousOmittedBrowsers.filter(
+                          (omittedBrowser) => browser !== omittedBrowser
+                        )
+                      : [...previousOmittedBrowsers, browser]
+                  })
+                }}
+              >
+                {browser}
+              </TokenToggle>
+            ))}
+          </div>
+        </div>
       </nav>
       <main>
         <div className={"flex gap-12"}>
@@ -130,7 +123,7 @@ export const App = () => {
             collisions={collisions}
           />
           <div className={"flex-grow"}>
-            {generateKeyCombo(keyboardEvent)}
+            <KeyboardEventChord event={keyboardEvent} />
             {keyboardEvent && (
               <p className={"text-xl text-slate-400 mb-8"}>
                 {collisions.length} collision{collisions.length !== 1 && "s"}
