@@ -15,6 +15,13 @@ export const App = () => {
   const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
   const [collisions, setCollisions] = useState<ChordDefinition[]>([])
   const unitLength = 0.25
+  const osCollisionCount = collisions.reduce((acc, curr) => {
+    return acc + curr.os.length
+  }, 0)
+
+  useEffect(() => {
+    console.log({ browser, os })
+  }, [])
 
   useEffect(() => {
     const handleKeyboardEvent = (event: KeyboardEvent) => {
@@ -33,6 +40,7 @@ export const App = () => {
           ? null
           : event
       })
+
       setCollisions(getCollisions(event, chromeKeyChords as ChordDefinition[]))
     }
 
@@ -43,6 +51,28 @@ export const App = () => {
     }
   }, [])
 
+  const generateKeyCombo = (event: KeyboardEvent | null) => {
+    if (!event)
+      return (
+        <p className={"text-gray-400"}>Press some keys to see what happpens.</p>
+      )
+    const modifiers = [
+      { key: "ctrlKey", label: "Ctrl" },
+      { key: "altKey", label: "Alt" },
+      { key: "shiftKey", label: "Shift" },
+      { key: "metaKey", label: "Meta" },
+    ] as { key: keyof KeyboardEvent; label: string }[]
+
+    const activeModifiers = modifiers
+      .filter((modifierKey) => event[modifierKey.key])
+      .map((modifierKey) => modifierKey.label)
+    const keyCombo =
+      (activeModifiers.length ? activeModifiers.join(" + ") + " + " : "") +
+      `${event.key === " " ? "Space" : event.key}`
+
+    return <h2 className={"text-3xl font-bold mb-4"}>{keyCombo}</h2>
+  }
+
   return (
     <div className={"mx-8 mt-12"}>
       <nav className={"mb-8"}>
@@ -52,9 +82,6 @@ export const App = () => {
         <h2 className={"text-2xl text-gray-400 mb-24 font-light italic"}>
           Let's not ignorantly clobber your user's keyboard shortcuts, together.
         </h2>
-        <p className={"text-gray-400"}>
-          {!keyboardEvent && "Press some keys to see what happens."}&nbsp;
-        </p>
       </nav>
       <main>
         <div className={"flex gap-12"}>
@@ -64,9 +91,14 @@ export const App = () => {
             collisions={collisions}
           />
           <div className={"flex-grow"}>
-            <p className={"text-xl text-slate-600 mb-8"}>
-              {collisions.length} Collisions
-            </p>
+            {generateKeyCombo(keyboardEvent)}
+            {keyboardEvent && (
+              <p className={"text-xl text-slate-400 mb-8"}>
+                {collisions.length} collision{collisions.length !== 1 && "s"}
+                {osCollisionCount > 1 &&
+                  ` on ${osCollisionCount} OS${osCollisionCount !== 1 && "s"}`}
+              </p>
+            )}
             <ul className={"flex flex-col gap-12"}>
               {collisions.map((chordDefinition) => (
                 <Collision
