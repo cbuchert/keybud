@@ -20,6 +20,9 @@ const os = parser.getOS()
 export const App = () => {
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
   const [omittedBrowsers, setOmittedBrowsers] = useState<Browser[]>([])
+  const [pinnedKeys, setPinnedKeys] = useState<Set<KeyboardEvent["key"]>>(
+    new Set()
+  )
   const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
   const collisions = getCollisions(
     keyboardEvent,
@@ -63,6 +66,33 @@ export const App = () => {
     }
   }, [])
 
+  const handleClick = (keys: KeyboardEvent["key"][]) => () => {
+    const isModifierKey = (key: KeyboardEvent["key"]) =>
+      ["Control", "Alt", "Shift", "Meta"].includes(key)
+
+    const hasPinnedNonModifier = [...pinnedKeys].some((key) => {
+      return !isModifierKey(key)
+    })
+
+    setPinnedKeys((previousPinnedKeys) => {
+      const isAlreadyPinned = keys.every((key) => pinnedKeys.has(key))
+      const isNonModifier = keys.some((key) => !isModifierKey(key))
+
+      if (isAlreadyPinned) {
+        return new Set<KeyboardEvent["key"]>(
+          [...previousPinnedKeys].filter((key) => !keys.includes(key))
+        )
+      } else if (hasPinnedNonModifier && isNonModifier) {
+        return new Set([
+          ...[...previousPinnedKeys].filter((key) => isModifierKey(key)),
+          ...keys,
+        ])
+      } else {
+        return new Set([...previousPinnedKeys, ...keys])
+      }
+    })
+  }
+
   return (
     <div className={"mx-8 mt-12"}>
       <nav className={"mb-8"}>
@@ -77,6 +107,7 @@ export const App = () => {
           <div className={"flex gap-2"}>
             {oses.map((os) => (
               <TokenToggle
+                key={os}
                 isChecked={!omittedOses.includes(os)}
                 onChange={() => {
                   setOmittedOses((previousOmittedOses) => {
@@ -98,6 +129,7 @@ export const App = () => {
           <div className={"flex gap-2"}>
             {browsers.map((browser) => (
               <TokenToggle
+                key={browser}
                 isChecked={!omittedBrowsers.includes(browser)}
                 onChange={() => {
                   setOmittedBrowsers((previousOmittedBrowsers) => {
@@ -122,6 +154,8 @@ export const App = () => {
               keyboardEvent={keyboardEvent}
               unitLength={unitLength}
               collisions={collisions}
+              onKeyClick={handleClick}
+              pinnedKeys={pinnedKeys}
             />
           </div>
           <div className={"flex-grow"}>

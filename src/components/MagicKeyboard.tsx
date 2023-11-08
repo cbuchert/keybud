@@ -7,10 +7,19 @@ import { Key } from "./molecules/Key.tsx"
 import { Keyboard } from "./molecules/Keyboard.tsx"
 import { KeyRow } from "./molecules/KeyRow.tsx"
 
+export const getKeyIsPinned = (
+  keys: KeyboardEvent["key"][],
+  pinnedKeys: Set<KeyboardEvent["key"]>
+) => {
+  return keys.some((key) => pinnedKeys.has(key))
+}
+
 export const MagicKeyboard: FC<KeyboardProps> = ({
   keyboardEvent,
   unitLength,
   collisions,
+  onKeyClick,
+  pinnedKeys,
 }) => {
   const defaultMMWidth = 15.93
   const defaultMMHeight = 15.4
@@ -41,6 +50,8 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
                         unitLength={unitLength}
                         isPressed={getIsPressed(key, keyboardEvent)}
                         isTaken={getIsTaken(key, keyboardEvent, collisions)}
+                        isPinned={getKeyIsPinned(key.keyNames, pinnedKeys)}
+                        onClick={onKeyClick(key.keyNames)}
                       />
                     ))}
                   </div>
@@ -56,6 +67,8 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
                   unitLength={unitLength}
                   isPressed={getIsPressed(key, keyboardEvent)}
                   isTaken={getIsTaken(key, keyboardEvent, collisions)}
+                  isPinned={getKeyIsPinned(key.keyNames, pinnedKeys)}
+                  onClick={onKeyClick(key.keyNames)}
                 />
               )
             })}

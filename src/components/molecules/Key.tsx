@@ -10,6 +10,8 @@ type Props = {
   unitLength: number
   isPressed: boolean
   isTaken: boolean
+  isPinned: boolean
+  onClick: () => void
 }
 
 export const Key: FC<Props> = ({
@@ -24,6 +26,8 @@ export const Key: FC<Props> = ({
   unitLength,
   isPressed,
   isTaken,
+  isPinned,
+  onClick,
 }) => {
   const keyWidth = (mmWidth || defaultMMWidth) * unitLength
   const keyHeight = (mmHeight || defaultMMHeight) * unitLength
@@ -40,8 +44,10 @@ export const Key: FC<Props> = ({
             ? "bg-red-400 text-gray-900"
             : "bg-sky-300 text-gray-900"
           : "bg-white",
-        isPressed ? "shadow-md" : "shadow-sm"
+        isPinned && "bg-slate-600 text-slate-100",
+        isPressed || isPinned ? "shadow-md" : "shadow-sm"
       )}
+      onClick={onClick}
       style={{
         gap: `${unitLength * 0.5}rem`,
         width: `${keyWidth}rem`,
