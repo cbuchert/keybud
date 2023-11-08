@@ -30,12 +30,17 @@ export const Key: FC<Props> = ({
   const primaryKeyFontsizeMultiplier = 4
   const secondaryKeyFontSizeMultiplier = 3.5
 
+  isTaken && console.log(primaryLabel, isTaken)
   return (
     <button
       type={"button"}
       className={classNames(
         "flex flex-col justify-center items-center text-gray-500 border border-gray-400 transition-all transform-gpu",
-        isPressed ? (isTaken ? "bg-red-500" : "bg-sky-300") : "bg-white",
+        isPressed
+          ? isTaken
+            ? "bg-red-400 text-gray-900"
+            : "bg-sky-300"
+          : "bg-white",
         isPressed ? "shadow-md" : "shadow-sm"
       )}
       style={{
