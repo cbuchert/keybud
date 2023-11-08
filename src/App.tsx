@@ -117,11 +117,13 @@ export const App = () => {
       </nav>
       <main>
         <div className={"flex gap-12"}>
-          <MagicKeyboard
-            keyboardEvent={keyboardEvent}
-            unitLength={unitLength}
-            collisions={collisions}
-          />
+          <div>
+            <MagicKeyboard
+              keyboardEvent={keyboardEvent}
+              unitLength={unitLength}
+              collisions={collisions}
+            />
+          </div>
           <div className={"flex-grow"}>
             <KeyboardEventChord event={keyboardEvent} />
             {keyboardEvent && (
