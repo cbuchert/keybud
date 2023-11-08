@@ -1,3 +1,4 @@
+import { isEqual, pick } from "lodash"
 import { useEffect, useState } from "react"
 import UAParser from "ua-parser-js"
 import { MagicKeyboard } from "./components/MagicKeyboard.tsx"
@@ -18,7 +19,20 @@ export const App = () => {
   useEffect(() => {
     const handleKeyboardEvent = (event: KeyboardEvent) => {
       event.preventDefault()
-      setKeyboardEvent(event)
+      setKeyboardEvent((previousEvent) => {
+        return isEqual(
+          pick(previousEvent, [
+            "key",
+            "ctrlKey",
+            "altKey",
+            "shiftKey",
+            "metaKey",
+          ]),
+          pick(event, ["key", "ctrlKey", "altKey", "shiftKey", "metaKey"])
+        )
+          ? null
+          : event
+      })
       setCollisions(getCollisions(event, chromeKeyChords as ChordDefinition[]))
     }
 

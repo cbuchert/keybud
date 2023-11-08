@@ -34,7 +34,7 @@ export const Key: FC<Props> = ({
     <button
       type={"button"}
       className={classNames(
-        "flex flex-col justify-center items-center text-gray-600 border border-gray-400 transition-all transform-gpu",
+        "flex flex-col justify-center items-center text-gray-500 border border-gray-400 transition-all transform-gpu",
         isPressed ? (isTaken ? "bg-red-500" : "bg-sky-300") : "bg-white",
         isPressed ? "shadow-md" : "shadow-sm"
       )}
