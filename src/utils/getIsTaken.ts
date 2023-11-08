@@ -12,6 +12,7 @@ export const getIsTaken = (
   }
 
   const { isAlt, isShift, isControl, isMeta } = getModifierKeys(key.keyNames)
+  console.log({ chordCollisions, isAlt, isShift, isControl, isMeta })
 
   return false
 }

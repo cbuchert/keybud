@@ -13,7 +13,10 @@ const os = parser.getOS()
 
 export const App = () => {
   const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
-  const [collisions, setCollisions] = useState<ChordDefinition[]>([])
+  const collisions = getCollisions(
+    keyboardEvent,
+    chromeKeyChords as ChordDefinition[]
+  )
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
     return acc + curr.os.length
@@ -40,8 +43,6 @@ export const App = () => {
           ? null
           : event
       })
-
-      setCollisions(getCollisions(event, chromeKeyChords as ChordDefinition[]))
     }
 
     document.addEventListener("keydown", handleKeyboardEvent)

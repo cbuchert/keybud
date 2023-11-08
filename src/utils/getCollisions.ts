@@ -1,9 +1,13 @@
 import { ChordDefinition } from "../types/ChordDefinition.ts"
 
 export const getCollisions = (
-  event: KeyboardEvent,
+  event: KeyboardEvent | null,
   usedKeyChords: ChordDefinition[]
 ) => {
+  if (!event) {
+    return []
+  }
+
   return usedKeyChords.filter(({ chord }) => {
     return (
       event.key === chord.key &&
