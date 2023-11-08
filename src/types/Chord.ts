@@ -1,5 +1,5 @@
 export type Chord = {
-  key: string
+  key: KeyboardEvent["key"]
   altKey?: boolean
   ctrlKey?: boolean
   metaKey?: boolean

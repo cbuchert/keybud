@@ -127,43 +127,43 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     },
     {
       keyNames: ["q"],
-      label: ["q"],
+      label: ["Q"],
     },
     {
       keyNames: ["w"],
-      label: ["w"],
+      label: ["W"],
     },
     {
       keyNames: ["e"],
-      label: ["e"],
+      label: ["E"],
     },
     {
       keyNames: ["r"],
-      label: ["r"],
+      label: ["R"],
     },
     {
       keyNames: ["t"],
-      label: ["t"],
+      label: ["T"],
     },
     {
       keyNames: ["y"],
-      label: ["y"],
+      label: ["Y"],
     },
     {
       keyNames: ["u"],
-      label: ["u"],
+      label: ["U"],
     },
     {
       keyNames: ["i"],
-      label: ["i"],
+      label: ["I"],
     },
     {
       keyNames: ["o"],
-      label: ["o"],
+      label: ["O"],
     },
     {
       keyNames: ["p"],
-      label: ["p"],
+      label: ["P"],
     },
     {
       keyNames: ["[", "{"],
@@ -186,39 +186,39 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     },
     {
       keyNames: ["a"],
-      label: ["a"],
+      label: ["A"],
     },
     {
       keyNames: ["s"],
-      label: ["s"],
+      label: ["S"],
     },
     {
       keyNames: ["d"],
-      label: ["d"],
+      label: ["D"],
     },
     {
       keyNames: ["f"],
-      label: ["f"],
+      label: ["F"],
     },
     {
       keyNames: ["g"],
-      label: ["g"],
+      label: ["G"],
     },
     {
       keyNames: ["h"],
-      label: ["h"],
+      label: ["H"],
     },
     {
       keyNames: ["j"],
-      label: ["j"],
+      label: ["J"],
     },
     {
       keyNames: ["k"],
-      label: ["k"],
+      label: ["K"],
     },
     {
       keyNames: ["l"],
-      label: ["l"],
+      label: ["L"],
     },
     {
       keyNames: [";", ":"],
@@ -230,7 +230,7 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     },
     {
       keyNames: ["Enter"],
-      label: ["enter"],
+      label: ["return"],
       mmWidth: 30.15,
     },
   ],
@@ -242,31 +242,31 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     },
     {
       keyNames: ["z"],
-      label: ["z"],
+      label: ["Z"],
     },
     {
       keyNames: ["x"],
-      label: ["x"],
+      label: ["X"],
     },
     {
       keyNames: ["c"],
-      label: ["c"],
+      label: ["C"],
     },
     {
       keyNames: ["v"],
-      label: ["v"],
+      label: ["V"],
     },
     {
       keyNames: ["b"],
-      label: ["b"],
+      label: ["B"],
     },
     {
       keyNames: ["n"],
-      label: ["n"],
+      label: ["N"],
     },
     {
       keyNames: ["m"],
-      label: ["m"],
+      label: ["M"],
     },
     {
       keyNames: [",", "<"],
@@ -293,30 +293,30 @@ export const magicKeyboardKeys: (KeyDefinition | KeyDefinition[])[][] = [
     },
     {
       keyNames: ["Control"],
-      label: ["control"],
+      label: ["control", "⌃"],
     },
     {
       keyNames: ["Alt"],
-      label: ["option"],
+      label: ["option", "⌥"],
     },
     {
       keyNames: ["Meta"],
-      label: ["command"],
+      label: ["command", "⌘"],
       mmWidth: 20.75,
     },
     {
       keyNames: [" "],
       label: [""],
-      mmWidth: 91.95,
+      mmWidth: 91.5,
     },
     {
       keyNames: ["Meta"],
-      label: ["command"],
+      label: ["command", "⌘"],
       mmWidth: 20.75,
     },
     {
       keyNames: ["Alt"],
-      label: ["option"],
+      label: ["option", "⌥"],
     },
     {
       keyNames: ["ArrowLeft"],

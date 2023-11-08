@@ -3,15 +3,23 @@ import { FC, ReactNode } from "react"
 type Props = {
   children: ReactNode
   mmRowGap: number
+  keyMMBorderRadius: number
   unitLength: number
 }
 
-export const Keyboard: FC<Props> = ({ children, mmRowGap, unitLength }) => {
+export const Keyboard: FC<Props> = ({
+  children,
+  mmRowGap,
+  keyMMBorderRadius,
+  unitLength,
+}) => {
   return (
     <div
-      className={"inline-block bg-gradient-to-b from-gray-200 to-gray-300"}
+      className={
+        "inline-block bg-gradient-to-b from-gray-200 to-gray-300 shadow-xl border-b border-gray-100"
+      }
       style={{
-        borderRadius: `${mmRowGap * unitLength}rem`,
+        borderRadius: `${(keyMMBorderRadius + mmRowGap) * unitLength}rem`,
       }}
     >
       <div
