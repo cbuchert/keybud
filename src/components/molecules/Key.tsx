@@ -39,12 +39,13 @@ export const Key: FC<Props> = ({
       type={"button"}
       className={classNames(
         "flex flex-col justify-center items-center text-gray-500 border border-gray-400 transition-all transform-gpu",
-        isPressed
+        isPinned
+          ? "bg-slate-600 text-slate-100"
+          : isPressed
           ? isTaken
             ? "bg-red-400 text-gray-900"
             : "bg-sky-300 text-gray-900"
           : "bg-white",
-        isPinned && "bg-slate-600 text-slate-100",
         isPressed ? "shadow-md" : "shadow-sm"
       )}
       onClick={onClick}
