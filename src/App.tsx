@@ -177,7 +177,7 @@ export const App = () => {
           </div>
         </div>
       </main>
-      <footer className={"text-gray-400 text-xs mt-16"}>
+      <footer className={"text-gray-400 text-xs mt-24"}>
         <p>
           Made with
           <span role={"img"} aria-label={"love"}>
