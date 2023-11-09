@@ -14,7 +14,6 @@ import { Os } from "./types/Os.ts"
 import { getCollisions } from "./utils/getCollisions.ts"
 
 const parser = new UAParser()
-const browser = parser.getBrowser()
 const os = parser.getOS()
 
 export const App = () => {
@@ -37,7 +36,7 @@ export const App = () => {
   }, new Set<string>()).size
 
   useEffect(() => {
-    console.log({ browser, os })
+    console.log({ os })
   }, [])
 
   useEffect(() => {
@@ -178,6 +177,29 @@ export const App = () => {
           </div>
         </div>
       </main>
+      <footer className={"text-gray-400 text-xs mt-16"}>
+        <p>
+          Made with
+          <span role={"img"} aria-label={"love"}>
+            {" "}
+            ❤️{" "}
+          </span>
+          by Chris Buchert
+        </p>
+        <p className={"mb-4"}>
+          <a href={"https://christianbuchert.com"} target={"_blank"}>
+            christianbuchert.com
+          </a>
+        </p>
+        <p className={"mb-4"}>
+          Many thanks to Lightspeed DMS for sponsoring this project
+        </p>
+        <p>
+          <a href={"https://github.com/cbuchert/keybud"} target={"_blank"}>
+            MIT Licensed and available on Github
+          </a>
+        </p>
+      </footer>
     </div>
   )
 }

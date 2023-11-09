@@ -45,7 +45,7 @@ export const Key: FC<Props> = ({
             : "bg-sky-300 text-gray-900"
           : "bg-white",
         isPinned && "bg-slate-600 text-slate-100",
-        isPressed || isPinned ? "shadow-md" : "shadow-sm"
+        isPressed ? "shadow-md" : "shadow-sm"
       )}
       onClick={onClick}
       style={{
