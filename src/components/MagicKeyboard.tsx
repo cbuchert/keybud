@@ -1,5 +1,6 @@
 import { FC } from "react"
-import { magicKeyboardKeys } from "../data/magicKeyboardKeys.ts"
+import { appleMagicKeyboardLayout } from "../data/appleMagicKeyboardLayout.ts"
+import { appleQueryKeymap } from "../data/appleQueryKeymap.ts"
 import { KeyboardProps } from "../types/KeyboardProps.ts"
 import { getIsPressed } from "../utils/getIsPressed.ts"
 import { getIsTaken } from "../utils/getIsTaken.ts"
@@ -7,19 +8,12 @@ import { Key } from "./molecules/Key.tsx"
 import { Keyboard } from "./molecules/Keyboard.tsx"
 import { KeyRow } from "./molecules/KeyRow.tsx"
 
-export const getKeyIsPinned = (
-  keys: KeyboardEvent["key"][],
-  pinnedKeys: Set<KeyboardEvent["key"]>
-) => {
-  return keys.some((key) => pinnedKeys.has(key))
-}
-
 export const MagicKeyboard: FC<KeyboardProps> = ({
-  keyboardEvent,
+  activeCodes,
   unitLength,
   collisions,
   onKeyClick,
-  pinnedKeys,
+  pinnedCodes,
 }) => {
   const defaultMMWidth = 15.93
   const defaultMMHeight = 15.4
@@ -33,25 +27,32 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
       mmRowGap={mmRowGap}
       keyMMBorderRadius={keyMMBorderRadius}
     >
-      {magicKeyboardKeys.map((row, index) => {
+      {appleMagicKeyboardLayout.map((row, index) => {
         return (
           <KeyRow key={index} unitLength={unitLength} mmKeyGap={keyMMGap}>
             {row.map((key, i) => {
               if (Array.isArray(key)) {
                 return (
                   <div key={`row-${index}-group-${i}`}>
-                    {key.map((key, j) => (
+                    {key.map((key) => (
                       <Key
-                        key={`${key.label[0]}-${i}-${j}`}
-                        keyDefinition={key}
-                        defaultMMHeight={defaultMMHeight}
-                        defaultMMWidth={defaultMMWidth}
+                        key={key.code}
+                        keyDefinition={appleQueryKeymap[key.code]}
+                        mmHeight={key.mmHeight || defaultMMHeight}
+                        mmWidth={key.mmWidth || defaultMMWidth}
                         mmBorderRadius={keyMMBorderRadius}
                         unitLength={unitLength}
-                        isPressed={getIsPressed(key, keyboardEvent)}
-                        isTaken={getIsTaken(key, keyboardEvent, collisions)}
-                        isPinned={getKeyIsPinned(key.keyNames, pinnedKeys)}
-                        onClick={onKeyClick(key.keyNames)}
+                        isPressed={getIsPressed(
+                          appleQueryKeymap[key.code],
+                          activeCodes
+                        )}
+                        isTaken={getIsTaken(
+                          key,
+                          activeCodes,
+                          collisions.length > 0
+                        )}
+                        isPinned={pinnedCodes.has(key.code)}
+                        onClick={onKeyClick(key.code)}
                       />
                     ))}
                   </div>
@@ -59,16 +60,19 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
               }
               return (
                 <Key
-                  key={`${key.label[0]}-${i}`}
-                  keyDefinition={key}
-                  defaultMMHeight={defaultMMHeight}
-                  defaultMMWidth={defaultMMWidth}
+                  key={key.code}
+                  keyDefinition={appleQueryKeymap[key.code]}
+                  mmHeight={key.mmHeight || defaultMMHeight}
+                  mmWidth={key.mmWidth || defaultMMWidth}
                   mmBorderRadius={keyMMBorderRadius}
                   unitLength={unitLength}
-                  isPressed={getIsPressed(key, keyboardEvent)}
-                  isTaken={getIsTaken(key, keyboardEvent, collisions)}
-                  isPinned={getKeyIsPinned(key.keyNames, pinnedKeys)}
-                  onClick={onKeyClick(key.keyNames)}
+                  isPressed={getIsPressed(
+                    appleQueryKeymap[key.code],
+                    activeCodes
+                  )}
+                  isTaken={getIsTaken(key, activeCodes, collisions.length > 0)}
+                  isPinned={pinnedCodes.has(key.code)}
+                  onClick={onKeyClick(key.code)}
                 />
               )
             })}

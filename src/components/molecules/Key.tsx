@@ -3,9 +3,9 @@ import { FC } from "react"
 import { KeyDefinition } from "../../types/KeyDefinition.ts"
 
 type Props = {
-  keyDefinition: KeyDefinition
-  defaultMMWidth: number
-  defaultMMHeight: number
+  keyDefinition?: KeyDefinition
+  mmWidth: number
+  mmHeight: number
   mmBorderRadius: number
   unitLength: number
   isPressed: boolean
@@ -15,13 +15,9 @@ type Props = {
 }
 
 export const Key: FC<Props> = ({
-  keyDefinition: {
-    label: [primaryLabel, secondaryLabel],
-    mmWidth,
-    mmHeight,
-  },
-  defaultMMHeight,
-  defaultMMWidth,
+  keyDefinition,
+  mmHeight,
+  mmWidth,
   mmBorderRadius,
   unitLength,
   isPressed,
@@ -29,10 +25,29 @@ export const Key: FC<Props> = ({
   isPinned,
   onClick,
 }) => {
-  const keyWidth = (mmWidth || defaultMMWidth) * unitLength
-  const keyHeight = (mmHeight || defaultMMHeight) * unitLength
+  const keyWidth = mmWidth * unitLength
+  const keyHeight = mmHeight * unitLength
   const primaryKeyFontsizeMultiplier = 4
   const secondaryKeyFontSizeMultiplier = 3.5
+
+  if (!keyDefinition) {
+    return (
+      <button
+        type={"button"}
+        className={"rounded border border-dashed border-gray-400"}
+        style={{
+          gap: `${unitLength * 0.5}rem`,
+          width: `${keyWidth}rem`,
+          height: `${keyHeight}rem`,
+          borderRadius: `${mmBorderRadius * unitLength}rem`,
+        }}
+      />
+    )
+  }
+
+  const {
+    labels: [primaryLabel, secondaryLabel],
+  } = keyDefinition
 
   return (
     <button

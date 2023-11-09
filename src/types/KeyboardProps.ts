@@ -1,9 +1,9 @@
 import { ChordDefinition } from "./ChordDefinition.ts"
 
 export type KeyboardProps = {
-  keyboardEvent: KeyboardEvent | null
+  activeCodes: Set<KeyboardEvent["code"]>
   unitLength: number
   collisions: ChordDefinition[]
-  onKeyClick: (key: KeyboardEvent["key"][]) => () => void
-  pinnedKeys: Set<KeyboardEvent["key"]>
+  onKeyClick: (code: KeyboardEvent["code"]) => () => void
+  pinnedCodes: Set<KeyboardEvent["code"]>
 }
