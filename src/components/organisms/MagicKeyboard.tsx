@@ -1,12 +1,12 @@
 import { FC } from "react"
-import { appleMagicKeyboardLayout } from "../data/appleMagicKeyboardLayout.ts"
-import { appleQueryKeymap } from "../data/appleQueryKeymap.ts"
-import { KeyboardProps } from "../types/KeyboardProps.ts"
-import { getIsPressed } from "../utils/getIsPressed.ts"
-import { getIsTaken } from "../utils/getIsTaken.ts"
-import { Key } from "./molecules/Key.tsx"
-import { Keyboard } from "./molecules/Keyboard.tsx"
-import { KeyRow } from "./molecules/KeyRow.tsx"
+import { appleMagicKeyboardLayout } from "../../data/appleMagicKeyboardLayout.ts"
+import { appleQueryKeymap } from "../../data/appleQueryKeymap.ts"
+import { KeyboardProps } from "../../types/KeyboardProps.ts"
+import { getIsPressed } from "../../utils/getIsPressed.ts"
+import { getIsTaken } from "../../utils/getIsTaken.ts"
+import { Key } from "../molecules/Key.tsx"
+import { Keyboard } from "../molecules/Keyboard.tsx"
+import { KeyRow } from "../molecules/KeyRow.tsx"
 
 export const MagicKeyboard: FC<KeyboardProps> = ({
   activeCodes,
