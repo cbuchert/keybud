@@ -1,5 +1,4 @@
-import { isEqual, pick } from "lodash"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { Collision } from "./components/molecules/Collision.tsx"
 import { CurrentChord } from "./components/molecules/CurrentChord.tsx"
@@ -8,6 +7,7 @@ import { appleQuertyKeymap } from "./data/appleQuertyKeymap.ts"
 import { browsers } from "./data/browsers.ts"
 import { existingKeyChords } from "./data/existingKeyChords"
 import { oses } from "./data/oses.ts"
+import { useKeypress } from "./hooks/useKeypress.ts"
 import { Browser } from "./types/Browser.ts"
 import { Os } from "./types/Os.ts"
 import { getActiveCodes } from "./utils/getActiveCodes.ts"
@@ -15,53 +15,27 @@ import { getCollisions } from "./utils/getCollisions.ts"
 import { isModifierKey } from "./utils/isModifierKey.ts"
 
 export const App = () => {
+  const keyboardEvent = useKeypress()
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
   const [omittedBrowsers, setOmittedBrowsers] = useState<Browser[]>([])
   const [pinnedCodes, setPinnedCodes] = useState<Set<KeyboardEvent["code"]>>(
     new Set()
   )
-  const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
+  const filteredExistingKeyChords = existingKeyChords.filter(
+    ({ os, browser }) => {
+      return !omittedOses.includes(os) && !omittedBrowsers.includes(browser)
+    }
+  )
   const activeCodes = getActiveCodes(keyboardEvent, pinnedCodes)
   const collisions = getCollisions(
     activeCodes,
-    existingKeyChords,
-    appleQuertyKeymap,
-    omittedOses,
-    omittedBrowsers
+    filteredExistingKeyChords,
+    appleQuertyKeymap
   )
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
     return acc.add(curr.os)
   }, new Set<string>()).size
-
-  useEffect(() => {
-    const handleKeyboardEvent = (event: KeyboardEvent) => {
-      event.preventDefault()
-      console.log(event)
-
-      // Clear the keyboard if the event is repeated.
-      setKeyboardEvent((previousEvent) => {
-        return isEqual(
-          pick(previousEvent, [
-            "key",
-            "ctrlKey",
-            "altKey",
-            "shiftKey",
-            "metaKey",
-          ]),
-          pick(event, ["key", "ctrlKey", "altKey", "shiftKey", "metaKey"])
-        )
-          ? null
-          : event
-      })
-    }
-
-    document.addEventListener("keydown", handleKeyboardEvent)
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyboardEvent)
-    }
-  }, [])
 
   const handleClick = (code: KeyboardEvent["code"]) => () => {
     const hasPinnedNonModifier = [...pinnedCodes].some((code) => {

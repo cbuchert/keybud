@@ -6,16 +6,16 @@ export const getActiveCodes = (
 
   if (keyboardEvent) {
     if (keyboardEvent.ctrlKey) {
-      keyboardEventCodes.push("ControlLeft")
+      keyboardEventCodes.push("ControlLeft", "ControlRight")
     }
     if (keyboardEvent.altKey) {
-      keyboardEventCodes.push("AltLeft")
+      keyboardEventCodes.push("AltLeft", "AltRight")
     }
     if (keyboardEvent.shiftKey) {
-      keyboardEventCodes.push("ShiftLeft")
+      keyboardEventCodes.push("ShiftLeft", "ShiftRight")
     }
     if (keyboardEvent.metaKey) {
-      keyboardEventCodes.push("MetaLeft")
+      keyboardEventCodes.push("MetaLeft", "MetaRight")
     }
     keyboardEventCodes.push(keyboardEvent.code)
   }
