@@ -1,29 +1,36 @@
 import { Browser } from "../types/Browser.ts"
-import { ChordDefinition } from "../types/ChordDefinition.ts"
+import { Chord } from "../types/Chord.ts"
+import { KeyMap } from "../types/KeyMap.ts"
 import { Os } from "../types/Os.ts"
 
 export const getCollisions = (
-  event: KeyboardEvent | null,
-  usedKeyChords: ChordDefinition[],
+  activeCodes: Set<KeyboardEvent["code"]>,
+  keyChords: Chord[],
+  keyMap: KeyMap,
   omittedOses: Os[],
   omittedBrowsers: Browser[]
 ) => {
-  if (!event) {
-    return []
-  }
+  const isShifted =
+    activeCodes.has("ShiftLeft") || activeCodes.has("ShiftRight")
+  // Do we need to handle CapsLock?
 
-  return usedKeyChords.filter(({ os, browser, chord }) => {
+  return keyChords.filter(({ os, browser, keys }) => {
     const isOmittedOs = omittedOses.includes(os)
     const isOmittedBrowser = omittedBrowsers.includes(browser)
 
+    if (isOmittedOs || isOmittedBrowser) {
+      return false
+    }
+
     return (
-      event.key === chord.key &&
-      event.altKey === Boolean(chord.altKey) &&
-      event.ctrlKey === Boolean(chord.ctrlKey) &&
-      event.metaKey === Boolean(chord.metaKey) &&
-      event.shiftKey === Boolean(chord.shiftKey) &&
-      !isOmittedOs &&
-      !isOmittedBrowser
+      [...activeCodes].every((code) => {
+        const key =
+          keyMap[code].keys[
+            keyMap[code].keys.length === 1 ? 0 : isShifted ? 1 : 0
+          ]
+
+        return key && keys.has(key)
+      }) && keys.size === activeCodes.size
     )
   })
 }

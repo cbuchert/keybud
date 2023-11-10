@@ -4,12 +4,11 @@ import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { Collision } from "./components/molecules/Collision.tsx"
 import { CurrentChord } from "./components/molecules/CurrentChord.tsx"
 import { MagicKeyboard } from "./components/organisms/MagicKeyboard.tsx"
-import { appleQueryKeymap } from "./data/appleQueryKeymap.ts"
+import { appleQuertyKeymap } from "./data/appleQuertyKeymap.ts"
 import { browsers } from "./data/browsers.ts"
-import chromeKeyChords from "./data/chrome.json"
+import { existingKeyChords } from "./data/existingKeyChords"
 import { oses } from "./data/oses.ts"
 import { Browser } from "./types/Browser.ts"
-import { ChordDefinition } from "./types/ChordDefinition.ts"
 import { Os } from "./types/Os.ts"
 import { getActiveCodes } from "./utils/getActiveCodes.ts"
 import { getCollisions } from "./utils/getCollisions.ts"
@@ -24,8 +23,9 @@ export const App = () => {
   const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
   const activeCodes = getActiveCodes(keyboardEvent, pinnedCodes)
   const collisions = getCollisions(
-    keyboardEvent,
-    chromeKeyChords as ChordDefinition[],
+    activeCodes,
+    existingKeyChords,
+    appleQuertyKeymap,
     omittedOses,
     omittedBrowsers
   )
@@ -156,7 +156,7 @@ export const App = () => {
           <div className={"flex-grow"}>
             <CurrentChord
               activeKeyDefinitions={[...activeCodes].map(
-                (code) => appleQueryKeymap[code]
+                (code) => appleQuertyKeymap[code]
               )}
             />
             {keyboardEvent && (
@@ -169,7 +169,9 @@ export const App = () => {
             <ul className={"flex flex-col gap-12"}>
               {collisions.map((chordDefinition, i) => (
                 <Collision
-                  key={`${chordDefinition.language}-${chordDefinition.os}-${chordDefinition.browser}-${chordDefinition.chord.key}-${i}`}
+                  key={`${chordDefinition.language}_${chordDefinition.os}_${
+                    chordDefinition.browser
+                  }_${[...chordDefinition.keys].join("-")}-${i}`}
                   chordDefinition={chordDefinition}
                 />
               ))}

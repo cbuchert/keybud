@@ -1,9 +1,9 @@
 import { FC } from "react"
-import { ChordDefinition } from "../../types/ChordDefinition.ts"
+import { Chord } from "../../types/Chord.ts"
 import { Badge } from "../atoms/Badge.tsx"
 
 type Props = {
-  chordDefinition: ChordDefinition
+  chordDefinition: Chord
 }
 
 export const Collision: FC<Props> = ({ chordDefinition }) => {
