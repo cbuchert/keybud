@@ -22,4 +22,29 @@ describe("getActiveCodes", () => {
 
     expect(getActiveCodes(event, pinnedKeys)).toEqual(new Set(["KeyA"]))
   })
+
+  it("return a set of modifier keys from the keyboard event.", () => {
+    const event = new KeyboardEvent("keydown", {
+      code: "KeyA",
+      ctrlKey: true,
+      altKey: true,
+      shiftKey: true,
+      metaKey: true,
+    })
+    const pinnedKeys = new Set<KeyboardEvent["code"]>()
+
+    expect(getActiveCodes(event, pinnedKeys)).toEqual(
+      new Set([
+        "ControlLeft",
+        "ControlRight",
+        "AltLeft",
+        "AltRight",
+        "ShiftLeft",
+        "ShiftRight",
+        "MetaLeft",
+        "MetaRight",
+        "KeyA",
+      ])
+    )
+  })
 })
