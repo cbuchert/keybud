@@ -1,11 +1,12 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
+/// <reference types="vitest" />
+
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
   test: {
-    globals: true,
+    environment: "jsdom",
   },
-}
+})
