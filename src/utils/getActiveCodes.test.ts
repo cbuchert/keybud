@@ -15,4 +15,11 @@ describe("getActiveCodes", () => {
 
     expect(getActiveCodes(event, pinnedKeys)).toEqual(new Set(["KeyA"]))
   })
+
+  it("returns a set with the pinned keys when no keyboard event is passed", () => {
+    const event = null
+    const pinnedKeys = new Set<KeyboardEvent["code"]>(["KeyA"])
+
+    expect(getActiveCodes(event, pinnedKeys)).toEqual(new Set(["KeyA"]))
+  })
 })
