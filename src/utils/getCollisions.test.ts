@@ -17,12 +17,29 @@ const keyMap: KeyMap = {
   },
 }
 
-const chords = [] as Chord[]
+const chords = [
+  {
+    keys: new Set(["a"]),
+  },
+] as Chord[]
 
 describe("getCollisions", () => {
   it("should return an empty array if there are no collisions", () => {
     const activeCodes = new Set<KeyboardEvent["code"]>()
 
     expect(getCollisions(activeCodes, chords, keyMap)).toEqual([])
+  })
+
+  it("returns a collision if the active code is in the chords", () => {
+    const activeCodes = new Set<KeyboardEvent["code"]>(["KeyA"])
+    const expectedCollisions = [
+      {
+        keys: new Set(["a"]),
+      },
+    ] as Chord[]
+
+    expect(getCollisions(activeCodes, chords, keyMap)).toEqual(
+      expectedCollisions
+    )
   })
 })
