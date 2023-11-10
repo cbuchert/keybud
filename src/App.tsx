@@ -37,6 +37,7 @@ export const App = () => {
   useEffect(() => {
     const handleKeyboardEvent = (event: KeyboardEvent) => {
       event.preventDefault()
+      console.log(event)
 
       // Clear the keyboard if the event is repeated.
       setKeyboardEvent((previousEvent) => {
