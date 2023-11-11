@@ -30,7 +30,11 @@ export const CurrentChord: FC<Props> = ({ activeKeyDefinitions }) => {
               return 0
             })
             .filter(Boolean)
-            .map(({ keys }) => keys[isShifted ? (keys.length > 1 ? 1 : 0) : 0])
+            .map(({ keys }) => {
+              const key = keys[isShifted ? (keys.length > 1 ? 1 : 0) : 0]
+
+              return key === " " ? "Space" : key
+            })
         ),
       ].join(" + ")}
     </h2>
