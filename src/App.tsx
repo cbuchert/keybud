@@ -11,7 +11,7 @@ import { useKeypress } from "./hooks/useKeypress.ts"
 import { Browser } from "./types/Browser.ts"
 import { Os } from "./types/Os.ts"
 import { getActiveCodes } from "./utils/getActiveCodes.ts"
-import { getCollisions } from "./utils/getCollisions.ts"
+import { getIsCollision } from "./utils/getIsCollision.ts"
 import { isModifierKey } from "./utils/isModifierKey.ts"
 
 export const App = () => {
@@ -21,16 +21,12 @@ export const App = () => {
   const [pinnedCodes, setPinnedCodes] = useState<Set<KeyboardEvent["code"]>>(
     new Set()
   )
-  const filteredExistingKeyChords = existingKeyChords.filter(
-    ({ os, browser }) => {
-      return !omittedOses.includes(os) && !omittedBrowsers.includes(browser)
-    }
-  )
   const activeCodes = getActiveCodes(keyboardEvent, pinnedCodes)
-  const collisions = getCollisions(
-    activeCodes,
-    filteredExistingKeyChords,
-    appleQuertyKeymap
+  const collisions = existingKeyChords.filter(
+    (chord) =>
+      !omittedOses.includes(chord.os) &&
+      !omittedBrowsers.includes(chord.browser) &&
+      getIsCollision(activeCodes, chord, appleQuertyKeymap)
   )
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
