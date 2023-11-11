@@ -11,8 +11,8 @@ import { useKeypress } from "./hooks/useKeypress.ts"
 import { Browser } from "./types/Browser.ts"
 import { Os } from "./types/Os.ts"
 import { getActiveCodes } from "./utils/getActiveCodes.ts"
+import { getCodeIsModifier } from "./utils/getCodeIsModifier.ts"
 import { getIsCollision } from "./utils/getIsCollision.ts"
-import { isModifierKey } from "./utils/isModifierKey.ts"
 
 export const App = () => {
   const keyboardEvent = useKeypress()
@@ -35,12 +35,12 @@ export const App = () => {
 
   const handleClick = (code: KeyboardEvent["code"]) => () => {
     const hasPinnedNonModifier = [...pinnedCodes].some((code) => {
-      return !isModifierKey(code)
+      return !getCodeIsModifier(code)
     })
 
     setPinnedCodes((previousPinnedCodes) => {
       const isAlreadyPinned = pinnedCodes.has(code)
-      const isNonModifier = !isModifierKey(code)
+      const isNonModifier = !getCodeIsModifier(code)
 
       if (isAlreadyPinned) {
         return new Set(
@@ -48,7 +48,7 @@ export const App = () => {
         )
       } else if (hasPinnedNonModifier && isNonModifier) {
         return new Set([
-          ...[...previousPinnedCodes].filter((code) => isModifierKey(code)),
+          ...[...previousPinnedCodes].filter((code) => getCodeIsModifier(code)),
           code,
         ])
       } else {

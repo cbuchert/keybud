@@ -1,4 +1,4 @@
-export const isModifierKey = (code: KeyboardEvent["code"]) => {
+export const getCodeIsModifier = (code: KeyboardEvent["code"]) => {
   return [
     "ControlLeft",
     "AltLeft",
