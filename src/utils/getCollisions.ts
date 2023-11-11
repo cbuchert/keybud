@@ -1,28 +1,27 @@
+import { has, isEqual } from "lodash"
 import { Chord } from "../types/Chord.ts"
 import { KeyMap } from "../types/KeyMap.ts"
 
 export const getCollisions = (
   activeCodes: Set<KeyboardEvent["code"]>,
   keyChords: Chord[],
-  keyMap: KeyMap
+  keyMaps: KeyMap
 ) => {
-  const isShifted =
-    activeCodes.has("ShiftLeft") || activeCodes.has("ShiftRight")
-  // Do we need to handle CapsLock?
+  return keyChords.filter((chord) => {
+    const isShifted =
+      activeCodes.has("ShiftLeft") || activeCodes.has("ShiftRight")
 
-  return keyChords.filter(({ keys }) => {
-    return (
-      [...activeCodes].every((code) => {
-        // If the key code doesn't not exist on the key map, ignore it.
-        if (!keyMap[code]) return true
+    const activeCodeKeys = new Set(
+      [...activeCodes]
+        .filter((code) => has(keyMaps, code))
+        .map((code) => {
+          const keyMap = keyMaps[code]
+          const shiftIndex = isShifted && keyMap.keys.length === 2 ? 1 : 0
 
-        const key =
-          keyMap[code].keys[
-            keyMap[code].keys.length === 1 ? 0 : isShifted ? 1 : 0
-          ]
-
-        return key && keys.has(key)
-      }) && keys.size === activeCodes.size
+          return keyMap.keys[shiftIndex]
+        })
     )
+
+    return isEqual(chord.keys, activeCodeKeys)
   })
 }
