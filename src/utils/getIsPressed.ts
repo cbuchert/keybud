@@ -2,9 +2,10 @@ import { KeyDefinition } from "../types/KeyDefinition.ts"
 
 export const getIsPressed = (
   key: KeyDefinition | undefined,
-  activeCodes: Set<KeyboardEvent["code"]>
+  eventCodes: Set<KeyboardEvent["code"]>,
+  pinnedCodes: Set<KeyboardEvent["code"]>
 ) => {
   if (!key) return false
 
-  return activeCodes.has(key.code)
+  return new Set([...eventCodes, ...pinnedCodes]).has(key.code)
 }

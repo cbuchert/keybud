@@ -1,28 +1,35 @@
-import { isEqual, pick } from "lodash"
+import { isEqual } from "lodash"
 import { useEffect, useState } from "react"
+import { getCodeIsModifier } from "../utils/getCodeIsModifier.ts"
+import { getKeyboardEventCodes } from "../utils/getKeyboardEventCodes.ts"
 
-export const useKeypress = () => {
-  const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
+export const useKeypress = (pinnedCodes: Set<KeyboardEvent["code"]>) => {
+  const [eventCodes, setEventCodes] = useState<Set<KeyboardEvent["code"]>>(
+    new Set()
+  )
 
   useEffect(() => {
     const handleKeyboardEvent = (event: KeyboardEvent) => {
       event.preventDefault()
-      console.log(event)
 
-      // Clear the keyboard if the event is repeated.
-      setKeyboardEvent((previousEvent) => {
-        return isEqual(
-          pick(previousEvent, [
-            "key",
-            "ctrlKey",
-            "altKey",
-            "shiftKey",
-            "metaKey",
-          ]),
-          pick(event, ["key", "ctrlKey", "altKey", "shiftKey", "metaKey"])
+      setEventCodes((previousCodes) => {
+        const codes = new Set(
+          [...getKeyboardEventCodes(event)].filter((code) => {
+            const isNonModifier = !getCodeIsModifier(code)
+            const hasPinnedNonModifier = [...pinnedCodes].some(
+              (pinnedCode) => !getCodeIsModifier(pinnedCode)
+            )
+
+            return !(isNonModifier && hasPinnedNonModifier)
+          })
         )
-          ? null
-          : event
+
+        // Clear the keyboard if the event is repeated.
+        if (isEqual(previousCodes, codes)) {
+          return new Set()
+        }
+
+        return codes
       })
     }
 
@@ -31,7 +38,7 @@ export const useKeypress = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyboardEvent)
     }
-  }, [])
+  }, [pinnedCodes])
 
-  return keyboardEvent
+  return eventCodes
 }

@@ -10,23 +10,25 @@ import { oses } from "./data/oses.ts"
 import { useKeypress } from "./hooks/useKeypress.ts"
 import { Browser } from "./types/Browser.ts"
 import { Os } from "./types/Os.ts"
-import { getActiveCodes } from "./utils/getActiveCodes.ts"
 import { getCodeIsModifier } from "./utils/getCodeIsModifier.ts"
 import { getIsCollision } from "./utils/getIsCollision.ts"
 
 export const App = () => {
-  const keyboardEvent = useKeypress()
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
   const [omittedBrowsers, setOmittedBrowsers] = useState<Browser[]>([])
   const [pinnedCodes, setPinnedCodes] = useState<Set<KeyboardEvent["code"]>>(
     new Set()
   )
-  const activeCodes = getActiveCodes(keyboardEvent, pinnedCodes)
+  const eventCodes = useKeypress(pinnedCodes)
   const collisions = existingKeyChords.filter(
     (chord) =>
       !omittedOses.includes(chord.os) &&
       !omittedBrowsers.includes(chord.browser) &&
-      getIsCollision(activeCodes, chord, appleQuertyKeymap)
+      getIsCollision(
+        new Set([...eventCodes, ...pinnedCodes]),
+        chord,
+        appleQuertyKeymap
+      )
   )
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
@@ -34,9 +36,14 @@ export const App = () => {
   }, new Set<string>()).size
 
   const handleClick = (code: KeyboardEvent["code"]) => () => {
-    const hasPinnedNonModifier = [...pinnedCodes].some((code) => {
-      return !getCodeIsModifier(code)
-    })
+    const hasActiveNonModifier = [...eventCodes, ...pinnedCodes].some(
+      (code) => {
+        return !getCodeIsModifier(code)
+      }
+    )
+    const eventCodesContainNonModifier = [...eventCodes].some(
+      (code) => !getCodeIsModifier(code)
+    )
 
     setPinnedCodes((previousPinnedCodes) => {
       const isAlreadyPinned = pinnedCodes.has(code)
@@ -46,7 +53,9 @@ export const App = () => {
         return new Set(
           [...previousPinnedCodes].filter((pinnedCode) => pinnedCode !== code)
         )
-      } else if (hasPinnedNonModifier && isNonModifier) {
+      } else if (isNonModifier && eventCodesContainNonModifier) {
+        return previousPinnedCodes
+      } else if (hasActiveNonModifier && isNonModifier) {
         return new Set([
           ...[...previousPinnedCodes].filter((code) => getCodeIsModifier(code)),
           code,
@@ -117,20 +126,20 @@ export const App = () => {
         <div className={"flex gap-12"}>
           <div>
             <MagicKeyboard
-              activeCodes={activeCodes}
               unitLength={unitLength}
               collisions={collisions}
               onKeyClick={handleClick}
+              eventCodes={eventCodes}
               pinnedCodes={pinnedCodes}
             />
           </div>
           <div className={"flex-grow"}>
             <CurrentChord
-              activeKeyDefinitions={[...activeCodes].map(
+              activeKeyDefinitions={[...eventCodes, ...pinnedCodes].map(
                 (code) => appleQuertyKeymap[code]
               )}
             />
-            {keyboardEvent && (
+            {eventCodes.size > 0 && (
               <p className={"text-xl text-slate-400 mb-8"}>
                 {collisions.length} collision{collisions.length !== 1 && "s"}
                 {osCollisionCount > 1 &&

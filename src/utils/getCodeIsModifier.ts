@@ -1,5 +1,5 @@
 export const getCodeIsModifier = (code: KeyboardEvent["code"]) => {
-  return [
+  return new Set([
     "ControlLeft",
     "AltLeft",
     "ShiftLeft",
@@ -8,5 +8,5 @@ export const getCodeIsModifier = (code: KeyboardEvent["code"]) => {
     "AltRight",
     "ShiftRight",
     "MetaRight",
-  ].includes(code)
+  ]).has(code)
 }

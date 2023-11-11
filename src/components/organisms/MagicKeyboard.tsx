@@ -9,10 +9,10 @@ import { Keyboard } from "../molecules/Keyboard.tsx"
 import { KeyRow } from "../molecules/KeyRow.tsx"
 
 export const MagicKeyboard: FC<KeyboardProps> = ({
-  activeCodes,
   unitLength,
   collisions,
   onKeyClick,
+  eventCodes,
   pinnedCodes,
 }) => {
   const defaultMMWidth = 15.93
@@ -44,11 +44,13 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
                         unitLength={unitLength}
                         isPressed={getIsPressed(
                           appleQuertyKeymap[key.code],
-                          activeCodes
+                          eventCodes,
+                          pinnedCodes
                         )}
                         isTaken={getIsTaken(
                           key,
-                          activeCodes,
+                          eventCodes,
+                          pinnedCodes,
                           collisions.length > 0
                         )}
                         isPinned={pinnedCodes.has(key.code)}
@@ -68,9 +70,15 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
                   unitLength={unitLength}
                   isPressed={getIsPressed(
                     appleQuertyKeymap[key.code],
-                    activeCodes
+                    eventCodes,
+                    pinnedCodes
                   )}
-                  isTaken={getIsTaken(key, activeCodes, collisions.length > 0)}
+                  isTaken={getIsTaken(
+                    key,
+                    eventCodes,
+                    pinnedCodes,
+                    collisions.length > 0
+                  )}
                   isPinned={pinnedCodes.has(key.code)}
                   onClick={onKeyClick(key.code)}
                 />
