@@ -33,7 +33,7 @@ export const App = () => {
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
     return acc.add(curr.os)
-  }, new Set<string>()).size
+  }, new Set()).size
 
   const handleClick = (code: KeyboardEvent["code"]) => () => {
     const hasActiveNonModifier = [...eventCodes, ...pinnedCodes].some(
@@ -139,7 +139,11 @@ export const App = () => {
                 (code) => appleQuertyKeymap[code]
               )}
             />
-            {eventCodes.size > 0 && (
+            {[...eventCodes, ...pinnedCodes].length === 0 ? (
+              <p className={"text-slate-400 mb-8"}>
+                Press or click some keys and see what happens.
+              </p>
+            ) : (
               <p className={"text-xl text-slate-400 mb-8"}>
                 {collisions.length} collision{collisions.length !== 1 && "s"}
                 {osCollisionCount > 1 &&
