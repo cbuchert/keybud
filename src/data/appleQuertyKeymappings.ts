@@ -1,6 +1,6 @@
-import { KeyMap } from "../types/KeyMap.ts"
+import { KeyMappings } from "../types/KeyMappings.ts"
 
-const row1: KeyMap = Object.fromEntries([
+const row1: KeyMappings = Object.fromEntries([
   ["Escape", { code: "Escape", labels: ["esc"], keys: ["Escape"] }],
   ["F1", { code: "F1", labels: ["F1"], keys: ["F1"] }],
   ["F2", { code: "F2", labels: ["F2"], keys: ["F2"] }],
@@ -15,7 +15,7 @@ const row1: KeyMap = Object.fromEntries([
   ["F11", { code: "F11", labels: ["F11"], keys: ["F11"] }],
   ["F12", { code: "F12", labels: ["F12"], keys: ["F12"] }],
 ])
-const row2: KeyMap = Object.fromEntries([
+const row2: KeyMappings = Object.fromEntries([
   ["Backquote", { code: "Backquote", labels: ["`", "~"], keys: ["`", "~"] }],
   ["Digit1", { code: "Digit1", labels: ["1", "!"], keys: ["1", "!"] }],
   ["Digit2", { code: "Digit2", labels: ["2", "@"], keys: ["2", "@"] }],
@@ -31,7 +31,7 @@ const row2: KeyMap = Object.fromEntries([
   ["Equal", { code: "Equal", labels: ["=", "+"], keys: ["=", "+"] }],
   ["Backspace", { code: "Backspace", labels: ["delete"], keys: ["Backspace"] }],
 ])
-const row3: KeyMap = Object.fromEntries([
+const row3: KeyMappings = Object.fromEntries([
   ["Tab", { code: "Tab", labels: ["tab"], keys: ["Tab"] }],
   ["KeyQ", { code: "KeyQ", labels: ["Q"], keys: ["q", "Q"] }],
   ["KeyW", { code: "KeyW", labels: ["W"], keys: ["w", "W"] }],
@@ -53,7 +53,7 @@ const row3: KeyMap = Object.fromEntries([
   ],
   ["Backslash", { code: "Backslash", labels: ["\\", "|"], keys: ["\\", "|"] }],
 ])
-const row4: KeyMap = Object.fromEntries([
+const row4: KeyMappings = Object.fromEntries([
   ["CapsLock", { code: "CapsLock", labels: ["caps lock"], keys: ["CapsLock"] }],
   ["KeyA", { code: "KeyA", labels: ["A"], keys: ["a", "A"] }],
   ["KeyS", { code: "KeyS", labels: ["S"], keys: ["s", "S"] }],
@@ -68,7 +68,7 @@ const row4: KeyMap = Object.fromEntries([
   ["Quote", { code: "Quote", labels: ["'", '"'], keys: ["'", '"'] }],
   ["Enter", { code: "Enter", labels: ["return"], keys: ["Enter"] }],
 ])
-const row5: KeyMap = Object.fromEntries([
+const row5: KeyMappings = Object.fromEntries([
   [
     "ShiftLeft",
     { code: "ShiftLeft", labels: ["shift"], isModifier: true, keys: ["Shift"] },
@@ -93,7 +93,7 @@ const row5: KeyMap = Object.fromEntries([
     },
   ],
 ])
-const row6: KeyMap = Object.fromEntries([
+const row6: KeyMappings = Object.fromEntries([
   [
     "ControlLeft",
     {
@@ -153,7 +153,7 @@ const row6: KeyMap = Object.fromEntries([
   ],
   ["ArrowRight", { code: "ArrowRight", labels: ["→"], keys: ["ArrowRight"] }],
 ])
-export const appleQuertyKeymap: KeyMap = {
+export const appleQuertyKeymappings: KeyMappings = {
   ...row1,
   ...row2,
   ...row3,

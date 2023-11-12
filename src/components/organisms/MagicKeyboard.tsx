@@ -1,7 +1,8 @@
 import { FC } from "react"
 import { appleMagicKeyboardLayout } from "../../data/appleMagicKeyboardLayout.ts"
-import { appleQuertyKeymap } from "../../data/appleQuertyKeymap.ts"
+import { appleQuertyKeymappings } from "../../data/appleQuertyKeymappings.ts"
 import { KeyboardProps } from "../../types/KeyboardProps.ts"
+import { getChordCodes } from "../../utils/getChordCodes.ts"
 import { getIsPressed } from "../../utils/getIsPressed.ts"
 import { getIsTaken } from "../../utils/getIsTaken.ts"
 import { Key } from "../molecules/Key.tsx"
@@ -11,6 +12,7 @@ import { KeyRow } from "../molecules/KeyRow.tsx"
 export const MagicKeyboard: FC<KeyboardProps> = ({
   unitLength,
   collisions,
+  possibleNextCollisions,
   onKeyClick,
   eventCodes,
   pinnedCodes,
@@ -37,21 +39,27 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
                     {key.map((key) => (
                       <Key
                         key={key.code}
-                        keyDefinition={appleQuertyKeymap[key.code]}
+                        keyDefinition={appleQuertyKeymappings[key.code]}
                         mmHeight={key.mmHeight || defaultMMHeight}
                         mmWidth={key.mmWidth || defaultMMWidth}
                         mmBorderRadius={keyMMBorderRadius}
                         unitLength={unitLength}
                         isPressed={getIsPressed(
-                          appleQuertyKeymap[key.code],
+                          appleQuertyKeymappings[key.code],
                           eventCodes,
                           pinnedCodes
                         )}
                         isTaken={getIsTaken(
                           key,
-                          eventCodes,
-                          pinnedCodes,
+                          new Set([...eventCodes, ...pinnedCodes]),
                           collisions.length > 0
+                        )}
+                        isTakenNext={possibleNextCollisions.some((chord) =>
+                          getIsTaken(
+                            key,
+                            getChordCodes(chord, appleQuertyKeymappings),
+                            true
+                          )
                         )}
                         isPinned={pinnedCodes.has(key.code)}
                         onClick={onKeyClick(key.code)}
@@ -63,21 +71,27 @@ export const MagicKeyboard: FC<KeyboardProps> = ({
               return (
                 <Key
                   key={key.code}
-                  keyDefinition={appleQuertyKeymap[key.code]}
+                  keyDefinition={appleQuertyKeymappings[key.code]}
                   mmHeight={key.mmHeight || defaultMMHeight}
                   mmWidth={key.mmWidth || defaultMMWidth}
                   mmBorderRadius={keyMMBorderRadius}
                   unitLength={unitLength}
                   isPressed={getIsPressed(
-                    appleQuertyKeymap[key.code],
+                    appleQuertyKeymappings[key.code],
                     eventCodes,
                     pinnedCodes
                   )}
                   isTaken={getIsTaken(
                     key,
-                    eventCodes,
-                    pinnedCodes,
+                    new Set([...eventCodes, ...pinnedCodes]),
                     collisions.length > 0
+                  )}
+                  isTakenNext={possibleNextCollisions.some((chord) =>
+                    getIsTaken(
+                      key,
+                      getChordCodes(chord, appleQuertyKeymappings),
+                      true
+                    )
                   )}
                   isPinned={pinnedCodes.has(key.code)}
                   onClick={onKeyClick(key.code)}

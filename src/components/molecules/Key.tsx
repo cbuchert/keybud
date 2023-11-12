@@ -10,6 +10,7 @@ type Props = {
   unitLength: number
   isPressed: boolean
   isTaken: boolean
+  isTakenNext: boolean
   isPinned: boolean
   onClick: () => void
 }
@@ -22,6 +23,7 @@ export const Key: FC<Props> = ({
   unitLength,
   isPressed,
   isTaken,
+  isTakenNext,
   isPinned,
   onClick,
 }) => {
@@ -49,18 +51,36 @@ export const Key: FC<Props> = ({
     labels: [primaryLabel, secondaryLabel],
   } = keyDefinition
 
+  const textAndBackgroundColor = (() => {
+    if (isPinned) {
+      if (isTaken) {
+        return "bg-red-700 text-white"
+      }
+
+      return "bg-slate-600 text-slate-100"
+    }
+
+    if (isPressed) {
+      if (isTaken) {
+        return "bg-red-400 text-white"
+      }
+
+      return "bg-sky-300 text-slate-900"
+    }
+
+    if (isTakenNext) {
+      return "bg-red-100 text-red-900"
+    }
+
+    return "bg-white text-gray-500"
+  })()
+
   return (
     <button
       type={"button"}
       className={classNames(
-        "flex flex-col justify-center items-center text-gray-500 border border-gray-400 transition-all transform-gpu",
-        isPinned
-          ? "bg-slate-600 text-slate-100"
-          : isPressed
-          ? isTaken
-            ? "bg-red-400 text-gray-900"
-            : "bg-sky-300 text-gray-900"
-          : "bg-white",
+        "flex flex-col justify-center items-center border border-gray-400 transition-all transform-gpu",
+        textAndBackgroundColor,
         isPressed ? "shadow-md" : "shadow-sm"
       )}
       onClick={onClick}

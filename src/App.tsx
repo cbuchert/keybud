@@ -1,17 +1,18 @@
+import { isEqual } from "lodash"
 import { useState } from "react"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { Collision } from "./components/molecules/Collision.tsx"
 import { CurrentChord } from "./components/molecules/CurrentChord.tsx"
 import { MagicKeyboard } from "./components/organisms/MagicKeyboard.tsx"
-import { appleQuertyKeymap } from "./data/appleQuertyKeymap.ts"
+import { appleQuertyKeymappings } from "./data/appleQuertyKeymappings.ts"
 import { browsers } from "./data/browsers.ts"
 import { existingKeyChords } from "./data/existingKeyChords"
 import { oses } from "./data/oses.ts"
 import { useKeypress } from "./hooks/useKeypress.ts"
 import { Browser } from "./types/Browser.ts"
 import { Os } from "./types/Os.ts"
+import { getActiveKeys } from "./utils/getActiveKeys.ts"
 import { getCodeIsModifier } from "./utils/getCodeIsModifier.ts"
-import { getIsCollision } from "./utils/getIsCollision.ts"
 
 export const App = () => {
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
@@ -20,16 +21,36 @@ export const App = () => {
     new Set()
   )
   const eventCodes = useKeypress(pinnedCodes)
+  const activeKeys = getActiveKeys(
+    new Set([...eventCodes, ...pinnedCodes]),
+    appleQuertyKeymappings
+  )
   const collisions = existingKeyChords.filter(
     (chord) =>
       !omittedOses.includes(chord.os) &&
       !omittedBrowsers.includes(chord.browser) &&
-      getIsCollision(
-        new Set([...eventCodes, ...pinnedCodes]),
-        chord,
-        appleQuertyKeymap
-      )
+      isEqual(activeKeys, chord.keys)
   )
+  const possibleNextCollisions = (() => {
+    const chords = existingKeyChords.filter((chord) => {
+      const hasOneMoreKey = chord.keys.size === activeKeys.size + 1
+      if (
+        !omittedOses.includes(chord.os) &&
+        !omittedBrowsers.includes(chord.browser) &&
+        !hasOneMoreKey
+      ) {
+        return false
+      }
+
+      const hasAllActiveKeys = [...activeKeys].every((activeKey) =>
+        chord.keys.has(activeKey)
+      )
+
+      return hasAllActiveKeys
+    })
+
+    return chords
+  })()
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
     return acc.add(curr.os)
@@ -128,6 +149,7 @@ export const App = () => {
             <MagicKeyboard
               unitLength={unitLength}
               collisions={collisions}
+              possibleNextCollisions={possibleNextCollisions}
               onKeyClick={handleClick}
               eventCodes={eventCodes}
               pinnedCodes={pinnedCodes}
@@ -136,10 +158,10 @@ export const App = () => {
           <div className={"flex-grow"}>
             <CurrentChord
               activeKeyDefinitions={[...eventCodes, ...pinnedCodes].map(
-                (code) => appleQuertyKeymap[code]
+                (code) => appleQuertyKeymappings[code]
               )}
             />
-            {[...eventCodes, ...pinnedCodes].length === 0 ? (
+            {activeKeys.size === 0 ? (
               <p className={"text-slate-400 mb-8"}>
                 Press or click some keys and see what happens.
               </p>

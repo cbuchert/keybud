@@ -1,5 +1,5 @@
 import { KeyDefinition } from "./KeyDefinition.ts"
 
-export type KeyMap = {
+export type KeyMappings = {
   [code: KeyboardEvent["code"]]: KeyDefinition
 }
