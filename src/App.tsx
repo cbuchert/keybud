@@ -13,6 +13,7 @@ import { Browser } from "./types/Browser.ts"
 import { Os } from "./types/Os.ts"
 import { getActiveKeys } from "./utils/getActiveKeys.ts"
 import { getCodeIsModifier } from "./utils/getCodeIsModifier.ts"
+import { getPossibleNextCollisions } from "./utils/getPossibleNextCollisions.ts"
 
 export const App = () => {
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
@@ -31,26 +32,11 @@ export const App = () => {
       !omittedBrowsers.includes(chord.browser) &&
       isEqual(activeKeys, chord.keys)
   )
-  const possibleNextCollisions = (() => {
-    const chords = existingKeyChords.filter((chord) => {
-      const hasOneMoreKey = chord.keys.size === activeKeys.size + 1
-      if (
-        !omittedOses.includes(chord.os) &&
-        !omittedBrowsers.includes(chord.browser) &&
-        !hasOneMoreKey
-      ) {
-        return false
-      }
-
-      const hasAllActiveKeys = [...activeKeys].every((activeKey) =>
-        chord.keys.has(activeKey)
-      )
-
-      return hasAllActiveKeys
-    })
-
-    return chords
-  })()
+  const possibleNextCollisions = getPossibleNextCollisions(
+    omittedOses,
+    omittedBrowsers,
+    activeKeys
+  )
   const unitLength = 0.25
   const osCollisionCount = collisions.reduce((acc, curr) => {
     return acc.add(curr.os)
