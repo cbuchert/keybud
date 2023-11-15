@@ -1,5 +1,5 @@
 import { isEqual } from "lodash"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { Collision } from "./components/molecules/Collision.tsx"
 import { CurrentChord } from "./components/molecules/CurrentChord.tsx"
@@ -22,25 +22,36 @@ export const App = () => {
     new Set()
   )
   const eventCodes = useKeypress(pinnedCodes)
-  const activeKeys = getActiveKeys(
-    new Set([...eventCodes, ...pinnedCodes]),
-    appleQuertyKeymappings
+  const activeKeys = useMemo(
+    () =>
+      getActiveKeys(
+        new Set([...eventCodes, ...pinnedCodes]),
+        appleQuertyKeymappings
+      ),
+    [eventCodes, pinnedCodes, appleQuertyKeymappings]
   )
-  const collisions = existingKeyChords.filter(
-    (chord) =>
-      !omittedOses.includes(chord.os) &&
-      !omittedBrowsers.includes(chord.browser) &&
-      isEqual(activeKeys, chord.keys)
+  const collisions = useMemo(
+    () =>
+      existingKeyChords.filter(
+        (chord) =>
+          !omittedOses.includes(chord.os) &&
+          !omittedBrowsers.includes(chord.browser) &&
+          isEqual(activeKeys, chord.keys)
+      ),
+    [existingKeyChords, omittedOses, omittedBrowsers, activeKeys]
   )
-  const possibleNextCollisions = getPossibleNextCollisions(
-    omittedOses,
-    omittedBrowsers,
-    activeKeys
+  const possibleNextCollisions = useMemo(
+    () => getPossibleNextCollisions(omittedOses, omittedBrowsers, activeKeys),
+    [omittedOses, omittedBrowsers, activeKeys]
   )
   const unitLength = 0.25
-  const osCollisionCount = collisions.reduce((acc, curr) => {
-    return acc.add(curr.os)
-  }, new Set()).size
+  const osCollisionCount = useMemo(
+    () =>
+      collisions.reduce((acc, curr) => {
+        return acc.add(curr.os)
+      }, new Set()).size,
+    [collisions]
+  )
 
   const handleClick = (code: KeyboardEvent["code"]) => () => {
     const hasActiveNonModifier = [...eventCodes, ...pinnedCodes].some(
