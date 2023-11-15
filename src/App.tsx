@@ -85,7 +85,7 @@ export const App = () => {
       </header>
       <main>
         <div className={"mb-8"}>
-          <div>
+          <div className={"mb-4"}>
             <p>OSes to include:</p>
             <div className={"flex gap-2"}>
               {oses.map((os) => (
@@ -140,6 +140,32 @@ export const App = () => {
               eventCodes={eventCodes}
               pinnedCodes={pinnedCodes}
             />
+            <section className={"text-gray-400 text-xs mt-24"}>
+              <p>
+                Made with
+                <span role={"img"} aria-label={"love"}>
+                  {" "}
+                  ❤️{" "}
+                </span>
+                by Chris Buchert
+              </p>
+              <p className={"mb-4"}>
+                <a href={"https://christianbuchert.com"} target={"_blank"}>
+                  christianbuchert.com
+                </a>
+              </p>
+              <p className={"mb-4"}>
+                Many thanks to Lightspeed DMS for sponsoring this project
+              </p>
+              <p>
+                <a
+                  href={"https://github.com/cbuchert/keybud"}
+                  target={"_blank"}
+                >
+                  MIT Licensed and available on Github
+                </a>
+              </p>
+            </section>
           </div>
           <div className={"flex-grow"}>
             <CurrentChord
@@ -171,29 +197,6 @@ export const App = () => {
           </div>
         </div>
       </main>
-      <footer className={"text-gray-400 text-xs mt-24"}>
-        <p>
-          Made with
-          <span role={"img"} aria-label={"love"}>
-            {" "}
-            ❤️{" "}
-          </span>
-          by Chris Buchert
-        </p>
-        <p className={"mb-4"}>
-          <a href={"https://christianbuchert.com"} target={"_blank"}>
-            christianbuchert.com
-          </a>
-        </p>
-        <p className={"mb-4"}>
-          Many thanks to Lightspeed DMS for sponsoring this project
-        </p>
-        <p>
-          <a href={"https://github.com/cbuchert/keybud"} target={"_blank"}>
-            MIT Licensed and available on Github
-          </a>
-        </p>
-      </footer>
     </div>
   )
 }

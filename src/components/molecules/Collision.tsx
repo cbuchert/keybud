@@ -9,16 +9,16 @@ type Props = {
 export const Collision: FC<Props> = ({ chordDefinition }) => {
   return (
     <li>
-      <div className={"grid grid-cols-3 gap-4"}>
-        <div>
-          <p className={"text-gray-600 font-semibold text-lg"}>Languages:</p>
-          <Badge>{chordDefinition.language}</Badge>
+      <div className={"flex flex-col gap-4"}>
+        <div className={"flex gap-2"}>
+          <Badge className={"bg-slate-300 text-slate-900"}>
+            {chordDefinition.os}
+          </Badge>
+          <Badge className={"bg-slate-200 text-slate-800"}>
+            {chordDefinition.browser}
+          </Badge>
         </div>
         <div>
-          <p className={"text-gray-600 font-semibold text-lg"}>Browser:</p>
-          <Badge key={chordDefinition.browser}>{chordDefinition.browser}</Badge>
-        </div>
-        <div className={"col-span-3"}>
           <p className={"text-gray-600 font-semibold text-lg"}>Description:</p>
           <p className={"text-gray-400"}>{chordDefinition.description}</p>
         </div>

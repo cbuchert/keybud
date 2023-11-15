@@ -1,12 +1,14 @@
+import classNames from "classnames"
 import { FC, ReactNode } from "react"
 
 type Props = {
   children: ReactNode
+  className?: string
 }
 
-export const Badge: FC<Props> = ({ children }) => {
+export const Badge: FC<Props> = ({ children, className }) => {
   return (
-    <span className={"rounded-full bg-slate-200 text-slate-800 px-2 py-0.5"}>
+    <span className={classNames("rounded-full px-2 py-0.5", className)}>
       {children}
     </span>
   )
