@@ -1,5 +1,5 @@
 import { isEqual } from "lodash"
-import { useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { Collision } from "./components/molecules/Collision.tsx"
 import { CurrentChord } from "./components/molecules/CurrentChord.tsx"
@@ -53,36 +53,41 @@ export const App = () => {
     [collisions]
   )
 
-  const handleClick = (code: KeyboardEvent["code"]) => () => {
-    const hasActiveNonModifier = [...eventCodes, ...pinnedCodes].some(
-      (code) => {
-        return !getCodeIsModifier(code)
-      }
-    )
-    const eventCodesContainNonModifier = [...eventCodes].some(
-      (code) => !getCodeIsModifier(code)
-    )
+  const handleClick = useCallback(
+    (code: KeyboardEvent["code"]) => () => {
+      const hasActiveNonModifier = [...eventCodes, ...pinnedCodes].some(
+        (code) => {
+          return !getCodeIsModifier(code)
+        }
+      )
+      const eventCodesContainNonModifier = [...eventCodes].some(
+        (code) => !getCodeIsModifier(code)
+      )
 
-    setPinnedCodes((previousPinnedCodes) => {
-      const isAlreadyPinned = pinnedCodes.has(code)
-      const isNonModifier = !getCodeIsModifier(code)
+      setPinnedCodes((previousPinnedCodes) => {
+        const isAlreadyPinned = pinnedCodes.has(code)
+        const isNonModifier = !getCodeIsModifier(code)
 
-      if (isAlreadyPinned) {
-        return new Set(
-          [...previousPinnedCodes].filter((pinnedCode) => pinnedCode !== code)
-        )
-      } else if (isNonModifier && eventCodesContainNonModifier) {
-        return previousPinnedCodes
-      } else if (hasActiveNonModifier && isNonModifier) {
-        return new Set([
-          ...[...previousPinnedCodes].filter((code) => getCodeIsModifier(code)),
-          code,
-        ])
-      } else {
-        return new Set([...previousPinnedCodes, code])
-      }
-    })
-  }
+        if (isAlreadyPinned) {
+          return new Set(
+            [...previousPinnedCodes].filter((pinnedCode) => pinnedCode !== code)
+          )
+        } else if (isNonModifier && eventCodesContainNonModifier) {
+          return previousPinnedCodes
+        } else if (hasActiveNonModifier && isNonModifier) {
+          return new Set([
+            ...[...previousPinnedCodes].filter((code) =>
+              getCodeIsModifier(code)
+            ),
+            code,
+          ])
+        } else {
+          return new Set([...previousPinnedCodes, code])
+        }
+      })
+    },
+    [eventCodes, pinnedCodes, setPinnedCodes]
+  )
 
   return (
     <div className={"mx-8 mt-12"}>
