@@ -1,8 +1,7 @@
 import { isEqual } from "lodash"
 import { useCallback, useMemo, useState } from "react"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
-import { Collision } from "./components/molecules/Collision.tsx"
-import { CurrentChord } from "./components/molecules/CurrentChord.tsx"
+import { Collisions } from "./components/organisms/Collisions.tsx"
 import { MagicKeyboard } from "./components/organisms/MagicKeyboard.tsx"
 import { appleQuertyKeymappings } from "./data/appleQuertyKeymappings.ts"
 import { browsers } from "./data/browsers.ts"
@@ -45,13 +44,6 @@ export const App = () => {
     [omittedOses, omittedBrowsers, activeKeys]
   )
   const unitLength = 0.25
-  const osCollisionCount = useMemo(
-    () =>
-      collisions.reduce((acc, curr) => {
-        return acc.add(curr.os)
-      }, new Set()).size,
-    [collisions]
-  )
 
   const handleClick = useCallback(
     (code: KeyboardEvent["code"]) => () => {
@@ -183,34 +175,11 @@ export const App = () => {
               </p>
             </section>
           </div>
-          <div className={"flex-grow"}>
-            <CurrentChord
-              activeKeyDefinitions={[...eventCodes, ...pinnedCodes].map(
-                (code) => appleQuertyKeymappings[code]
-              )}
-            />
-            {activeKeys.size === 0 ? (
-              <p className={"text-slate-400 mb-8"}>
-                Press or click some keys and see what happens.
-              </p>
-            ) : (
-              <p className={"text-xl text-slate-400 mb-8"}>
-                {collisions.length} collision{collisions.length !== 1 && "s"}
-                {osCollisionCount > 1 &&
-                  ` on ${osCollisionCount} OS${osCollisionCount !== 1 && "s"}`}
-              </p>
-            )}
-            <ul className={"flex flex-col gap-12"}>
-              {collisions.map((chordDefinition, i) => (
-                <Collision
-                  key={`${chordDefinition.language}_${chordDefinition.os}_${
-                    chordDefinition.browser
-                  }_${[...chordDefinition.keys].join("-")}-${i}`}
-                  chordDefinition={chordDefinition}
-                />
-              ))}
-            </ul>
-          </div>
+          <Collisions
+            activeCodes={[...eventCodes, ...pinnedCodes]}
+            activeKeys={activeKeys}
+            collisions={collisions}
+          />
         </div>
       </main>
     </div>

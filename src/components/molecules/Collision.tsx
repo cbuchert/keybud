@@ -11,6 +11,9 @@ export const Collision: FC<Props> = ({ chordDefinition }) => {
     <li>
       <div className={"flex flex-col gap-4"}>
         <div className={"flex gap-2"}>
+          <Badge className={"bg-slate-400 text-slate-50 uppercase"}>
+            {chordDefinition.language}
+          </Badge>
           <Badge className={"bg-slate-300 text-slate-900"}>
             {chordDefinition.os}
           </Badge>
@@ -18,10 +21,7 @@ export const Collision: FC<Props> = ({ chordDefinition }) => {
             {chordDefinition.browser}
           </Badge>
         </div>
-        <div>
-          <p className={"text-gray-600 font-semibold text-lg"}>Description:</p>
-          <p className={"text-gray-400"}>{chordDefinition.description}</p>
-        </div>
+        <p className={"text-gray-400"}>{chordDefinition.description}</p>
       </div>
     </li>
   )
