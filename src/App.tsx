@@ -1,5 +1,6 @@
 import { isEqual } from "lodash"
 import { useCallback, useMemo, useState } from "react"
+import { Attribution } from "./components/atoms/Attribution.tsx"
 import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
 import { Collisions } from "./components/organisms/Collisions.tsx"
 import { MagicKeyboard } from "./components/organisms/MagicKeyboard.tsx"
@@ -82,63 +83,64 @@ export const App = () => {
   )
 
   return (
-    <div className={"mx-8 mt-12"}>
-      <header className={"mb-8"}>
-        <h1 className={"text-6xl mb-2 font-extrabold text-slate-700"}>
-          Keybud
-        </h1>
-        <h2 className={"text-2xl text-gray-400 mb-24 font-light italic"}>
-          Let's not ignorantly clobber your user's keyboard shortcuts, together.
-        </h2>
-      </header>
-      <main>
-        <div className={"mb-8"}>
-          <div className={"mb-4"}>
-            <p>OSes to include:</p>
-            <div className={"flex gap-2"}>
-              {oses.map((os) => (
-                <TokenToggle
-                  key={os}
-                  isChecked={!omittedOses.includes(os)}
-                  onChange={() => {
-                    setOmittedOses((previousOmittedOses) => {
-                      return previousOmittedOses.includes(os)
-                        ? previousOmittedOses.filter(
-                            (omittedOs) => os !== omittedOs
-                          )
-                        : [...previousOmittedOses, os]
-                    })
-                  }}
-                >
-                  {os}
-                </TokenToggle>
-              ))}
+    <div className={"flex gap-12 lg:gap-0 flex-col lg:flex-row"}>
+      <div className={"mx-8 mt-12 mb-8"}>
+        <header className={"mb-8"}>
+          <h1 className={"text-6xl mb-2 font-extrabold text-slate-700"}>
+            Keybud
+          </h1>
+          <h2 className={"text-2xl text-gray-400 mb-24 font-light italic"}>
+            Let's not ignorantly clobber your user's keyboard shortcuts,
+            together.
+          </h2>
+        </header>
+        <main>
+          <div className={"mb-12"}>
+            <div className={"mb-4"}>
+              <p>OSes to include:</p>
+              <div className={"flex gap-2"}>
+                {oses.map((os) => (
+                  <TokenToggle
+                    key={os}
+                    isChecked={!omittedOses.includes(os)}
+                    onChange={() => {
+                      setOmittedOses((previousOmittedOses) => {
+                        return previousOmittedOses.includes(os)
+                          ? previousOmittedOses.filter(
+                              (omittedOs) => os !== omittedOs
+                            )
+                          : [...previousOmittedOses, os]
+                      })
+                    }}
+                  >
+                    {os}
+                  </TokenToggle>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p>Browsers to include:</p>
+              <div className={"flex gap-2"}>
+                {browsers.map((browser) => (
+                  <TokenToggle
+                    key={browser}
+                    isChecked={!omittedBrowsers.includes(browser)}
+                    onChange={() => {
+                      setOmittedBrowsers((previousOmittedBrowsers) => {
+                        return previousOmittedBrowsers.includes(browser)
+                          ? previousOmittedBrowsers.filter(
+                              (omittedBrowser) => browser !== omittedBrowser
+                            )
+                          : [...previousOmittedBrowsers, browser]
+                      })
+                    }}
+                  >
+                    {browser}
+                  </TokenToggle>
+                ))}
+              </div>
             </div>
           </div>
-          <div>
-            <p>Browsers to include:</p>
-            <div className={"flex gap-2"}>
-              {browsers.map((browser) => (
-                <TokenToggle
-                  key={browser}
-                  isChecked={!omittedBrowsers.includes(browser)}
-                  onChange={() => {
-                    setOmittedBrowsers((previousOmittedBrowsers) => {
-                      return previousOmittedBrowsers.includes(browser)
-                        ? previousOmittedBrowsers.filter(
-                            (omittedBrowser) => browser !== omittedBrowser
-                          )
-                        : [...previousOmittedBrowsers, browser]
-                    })
-                  }}
-                >
-                  {browser}
-                </TokenToggle>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className={"flex gap-12"}>
           <div>
             <MagicKeyboard
               unitLength={unitLength}
@@ -148,40 +150,15 @@ export const App = () => {
               eventCodes={eventCodes}
               pinnedCodes={pinnedCodes}
             />
-            <section className={"text-gray-400 text-xs mt-24"}>
-              <p>
-                Made with
-                <span role={"img"} aria-label={"love"}>
-                  {" "}
-                  ❤️{" "}
-                </span>
-                by Chris Buchert
-              </p>
-              <p className={"mb-4"}>
-                <a href={"https://christianbuchert.com"} target={"_blank"}>
-                  christianbuchert.com
-                </a>
-              </p>
-              <p className={"mb-4"}>
-                Many thanks to Lightspeed DMS for sponsoring this project
-              </p>
-              <p>
-                <a
-                  href={"https://github.com/cbuchert/keybud"}
-                  target={"_blank"}
-                >
-                  MIT Licensed and available on Github
-                </a>
-              </p>
-            </section>
+            <Attribution />
           </div>
-          <Collisions
-            activeCodes={[...eventCodes, ...pinnedCodes]}
-            activeKeys={activeKeys}
-            collisions={collisions}
-          />
-        </div>
-      </main>
+        </main>
+      </div>
+      <Collisions
+        activeCodes={[...eventCodes, ...pinnedCodes]}
+        activeKeys={activeKeys}
+        collisions={collisions}
+      />
     </div>
   )
 }

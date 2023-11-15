@@ -1,5 +1,5 @@
-import autoAnimate from "@formkit/auto-animate"
-import { FC, useEffect, useMemo, useRef } from "react"
+import { useAutoAnimate } from "@formkit/auto-animate/react"
+import { FC, useMemo } from "react"
 import { appleQuertyKeymappings } from "../../data/appleQuertyKeymappings.ts"
 import { Chord } from "../../types/Chord.ts"
 import { Collision } from "../molecules/Collision.tsx"
@@ -16,8 +16,8 @@ export const Collisions: FC<Props> = ({
   activeKeys,
   collisions,
 }) => {
-  const chordRef = useRef<HTMLDivElement>(null)
-  const collisionsRef = useRef<HTMLUListElement>(null)
+  const [chordRef] = useAutoAnimate()
+  const [collisionsRef] = useAutoAnimate()
   const osCollisionCount = useMemo(
     () =>
       collisions.reduce((acc, curr) => {
@@ -26,24 +26,25 @@ export const Collisions: FC<Props> = ({
     [collisions]
   )
 
-  useEffect(() => {
-    chordRef.current && autoAnimate(chordRef.current)
-    collisionsRef.current && autoAnimate(collisionsRef.current)
-  }, [chordRef, collisionsRef])
-
   return (
-    <div className={"flex-grow"} ref={chordRef}>
+    <div
+      className={
+        "flex-grow lg:pt-[25.5rem] md:pr-8 pb-48 lg:h-[100vh] overflow-y-auto"
+      }
+      ref={chordRef}
+    >
       <CurrentChord
+        key={"current-chord"}
         activeKeyDefinitions={activeCodes.map(
           (code) => appleQuertyKeymappings[code]
         )}
       />
       {activeKeys.size === 0 ? (
-        <p className={"text-slate-400 mb-8"}>
+        <p className={"text-slate-400 mb-8"} key={"press-a-key"}>
           Press or click some keys and see what happens.
         </p>
       ) : (
-        <p className={"text-xl text-slate-400 mb-8"}>
+        <p className={"text-xl text-slate-400 mb-8"} key={"collision-counts"}>
           {collisions.length} collision{collisions.length !== 1 && "s"}
           {osCollisionCount > 1 &&
             ` on ${osCollisionCount} OS${osCollisionCount !== 1 && "s"}`}
