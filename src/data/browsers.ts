@@ -2,5 +2,5 @@ export const browsers = [
   "Chrome",
   // "Firefox",
   // "Safari",
-  // "Edge"
+  "Edge",
 ] as const
