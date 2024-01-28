@@ -7,7 +7,7 @@ type Props = {
   onChange: () => void
 }
 
-export const TokenToggle: FC<Props> = ({ children, isChecked, onChange }) => {
+export const ToggleButton: FC<Props> = ({ children, isChecked, onChange }) => {
   return (
     <button
       type={"button"}

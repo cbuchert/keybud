@@ -1,7 +1,7 @@
 import { isEqual } from "lodash"
 import { useCallback, useMemo, useState } from "react"
 import { Attribution } from "./components/atoms/Attribution.tsx"
-import { TokenToggle } from "./components/atoms/TokenToggle.tsx"
+import { ToggleButton } from "./components/atoms/ToggleButton.tsx"
 import { Collisions } from "./components/organisms/Collisions.tsx"
 import { MagicKeyboard } from "./components/organisms/MagicKeyboard.tsx"
 import { appleQuertyKeymappings } from "./data/appleQuertyKeymappings.ts"
@@ -85,14 +85,25 @@ export const App = () => {
   return (
     <div className={"flex gap-12 lg:gap-0 flex-col lg:flex-row"}>
       <div className={"mx-8 mt-12 mb-8"}>
-        <header className={"mb-8"}>
+        <header className={"mb-24"}>
           <h1 className={"text-6xl mb-2 font-extrabold text-slate-700"}>
             Keybud
           </h1>
-          <h2 className={"text-2xl text-gray-400 mb-24 font-light italic"}>
-            Let's not ignorantly clobber your user's keyboard shortcuts,
-            together.
+          <h2 className={"text-2xl text-gray-400 font-light italic"}>
+            Let's not ignorantly clobber your user's existing keyboard
+            shortcuts, together.
           </h2>
+          <p>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent"
+              className={
+                "text-blue-600 hover:text-blue-700 active:text-blue-500 transition-colors"
+              }
+            >
+              KeyboardEvent
+            </a>{" "}
+            docs on MDN
+          </p>
         </header>
         <main>
           <div className={"mb-12"}>
@@ -100,7 +111,7 @@ export const App = () => {
               <p>OSes to include:</p>
               <div className={"flex gap-2"}>
                 {oses.map((os) => (
-                  <TokenToggle
+                  <ToggleButton
                     key={os}
                     isChecked={!omittedOses.includes(os)}
                     onChange={() => {
@@ -114,7 +125,7 @@ export const App = () => {
                     }}
                   >
                     {os}
-                  </TokenToggle>
+                  </ToggleButton>
                 ))}
               </div>
             </div>
@@ -122,7 +133,7 @@ export const App = () => {
               <p>Browsers to include:</p>
               <div className={"flex gap-2"}>
                 {browsers.map((browser) => (
-                  <TokenToggle
+                  <ToggleButton
                     key={browser}
                     isChecked={!omittedBrowsers.includes(browser)}
                     onChange={() => {
@@ -136,7 +147,7 @@ export const App = () => {
                     }}
                   >
                     {browser}
-                  </TokenToggle>
+                  </ToggleButton>
                 ))}
               </div>
             </div>
