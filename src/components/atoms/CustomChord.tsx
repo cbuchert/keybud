@@ -5,6 +5,6 @@ type Props = {
   chord: Chord
 }
 
-export const CustomChord: FC<Props> = ({ chord }) => {
+export const CustomChord: FC<Props> = ({}) => {
   return <li>Chord.</li>
 }

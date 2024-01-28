@@ -27,12 +27,7 @@ export const Collisions: FC<Props> = ({
   )
 
   return (
-    <div
-      className={
-        "flex-grow lg:pt-[25.5rem] md:pr-8 pb-48 lg:h-[100vh] overflow-y-auto"
-      }
-      ref={chordRef}
-    >
+    <div className={"flex-grow md:pr-8 overflow-y-auto"} ref={chordRef}>
       <CurrentChord
         key={"current-chord"}
         activeKeyDefinitions={activeCodes.map(
