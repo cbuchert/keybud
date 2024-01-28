@@ -5,9 +5,9 @@ import { KeyboardProps } from "../../types/KeyboardProps.ts"
 import { getChordCodes } from "../../utils/getChordCodes.ts"
 import { getIsPressed } from "../../utils/getIsPressed.ts"
 import { getIsTaken } from "../../utils/getIsTaken.ts"
-import { Key } from "../molecules/Key.tsx"
-import { Keyboard } from "../molecules/Keyboard.tsx"
-import { KeyRow } from "../molecules/KeyRow.tsx"
+import { Key } from "../atoms/Key.tsx"
+import { Keyboard } from "../atoms/Keyboard.tsx"
+import { KeyRow } from "../atoms/KeyRow.tsx"
 
 export const MagicKeyboard: FC<KeyboardProps> = ({
   unitLength,

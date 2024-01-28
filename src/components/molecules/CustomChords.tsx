@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { Chord } from "../../types/Chord.ts"
-import { CustomChord } from "../molecules/CustomChord.tsx"
+import { CustomChord } from "../atoms/CustomChord.tsx"
 
 type Props = {
   chords: (Chord & { id: string })[]

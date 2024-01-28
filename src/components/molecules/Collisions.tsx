@@ -2,8 +2,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react"
 import { FC, useMemo } from "react"
 import { appleQuertyKeymappings } from "../../data/appleQuertyKeymappings.ts"
 import { Chord } from "../../types/Chord.ts"
-import { Collision } from "../molecules/Collision.tsx"
-import { CurrentChord } from "../molecules/CurrentChord.tsx"
+import { CurrentChord } from "../atoms/CurrentChord.tsx"
+import { Collision } from "./Collision.tsx"
 
 type Props = {
   activeCodes: KeyboardEvent["code"][]
