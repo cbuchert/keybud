@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useCallback, useMemo } from "react"
-import { Browser } from "../types/Browser.ts"
-import { Os } from "../types/Os.ts"
-import { getCodeIsModifier } from "../utils/getCodeIsModifier.ts"
-import { getPossibleNextCollisions } from "../utils/getPossibleNextCollisions.ts"
+import { Browser } from "../../types/Browser.ts"
+import { Os } from "../../types/Os.ts"
+import { getCodeIsModifier } from "../../utils/getCodeIsModifier.ts"
+import { getPossibleNextCollisions } from "../../utils/getPossibleNextCollisions.ts"
 
 export const useInteractiveKeyboardViewModel = (
   omittedOses: Os[],

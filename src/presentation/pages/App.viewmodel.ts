@@ -1,12 +1,12 @@
 import { isEqual } from "lodash"
 import { useMemo, useState } from "react"
-import { appleQuertyKeymappings } from "../data/appleQuertyKeymappings.ts"
-import { existingKeyChords } from "../data/existingKeyChords"
-import { useKeypress } from "../hooks/useKeypress.ts"
-import { Browser } from "../types/Browser.ts"
-import { Chord } from "../types/Chord.ts"
-import { Os } from "../types/Os.ts"
-import { getActiveKeys } from "../utils/getActiveKeys.ts"
+import { appleQuertyKeymappings } from "../../data/appleQuertyKeymappings.ts"
+import { existingKeyChords } from "../../data/existingKeyChords"
+import { useKeypress } from "../../hooks/useKeypress.ts"
+import { Browser } from "../../types/Browser.ts"
+import { Chord } from "../../types/Chord.ts"
+import { Os } from "../../types/Os.ts"
+import { getActiveKeys } from "../../utils/getActiveKeys.ts"
 
 export const useAppViewModel = () => {
   const [customChords, setCustomChords] = useState<Chord[]>([])

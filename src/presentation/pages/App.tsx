@@ -1,11 +1,11 @@
-import { Attribution } from "../components/atoms/Attribution.tsx"
-import { PageTitle } from "../components/atoms/PageTitle.tsx"
-import { CollisionDiscovery } from "../components/molecules/CollisionDiscovery.tsx"
-import { Filters } from "../components/molecules/Filters.tsx"
-import { browsers } from "../data/browsers.ts"
-import { oses } from "../data/oses.ts"
+import { Attribution } from "../../components/atoms/Attribution.tsx"
+import { PageTitle } from "../../components/atoms/PageTitle.tsx"
+import { Filters } from "../../components/molecules/Filters.tsx"
+import { browsers } from "../../data/browsers.ts"
+import { oses } from "../../data/oses.ts"
+import { Collisions } from "../views/Collisions.tsx"
+import { InteractiveKeyboard } from "../views/InteractiveKeyboard.tsx"
 import { useAppViewModel } from "./App.viewmodel.ts"
-import { InteractiveKeyboard } from "./InteractiveKeyboard.tsx"
 
 export const App = () => {
   const {
@@ -45,7 +45,7 @@ export const App = () => {
           />
           <Attribution />
         </div>
-        <CollisionDiscovery
+        <Collisions
           customChords={customChords}
           pinnedCodes={pinnedCodes}
           collisions={collisions}

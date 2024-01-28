@@ -1,8 +1,8 @@
 import { Dispatch, FC, SetStateAction } from "react"
-import { MagicKeyboard } from "../components/organisms/MagicKeyboard.tsx"
-import { Browser } from "../types/Browser.ts"
-import { ExistingKeyChord } from "../types/ExistingKeyChord.ts"
-import { Os } from "../types/Os.ts"
+import { MagicKeyboard } from "../../components/organisms/MagicKeyboard.tsx"
+import { Browser } from "../../types/Browser.ts"
+import { ExistingKeyChord } from "../../types/ExistingKeyChord.ts"
+import { Os } from "../../types/Os.ts"
 import { useInteractiveKeyboardViewModel } from "./InteractiveKeyboard.viewmodel.ts"
 
 type Props = {

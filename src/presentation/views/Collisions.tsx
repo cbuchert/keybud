@@ -1,36 +1,33 @@
-import { useAutoAnimate } from "@formkit/auto-animate/react"
-import { FC, useMemo } from "react"
+import { FC } from "react"
+import { CurrentChord } from "../../components/atoms/CurrentChord.tsx"
+import { Collision } from "../../components/molecules/Collision.tsx"
 import { appleQuertyKeymappings } from "../../data/appleQuertyKeymappings.ts"
 import { Chord } from "../../types/Chord.ts"
-import { CurrentChord } from "../atoms/CurrentChord.tsx"
-import { Collision } from "./Collision.tsx"
+import { ExistingKeyChord } from "../../types/ExistingKeyChord.ts"
+import { useCollisionsViewModel } from "./Collisions.viewmodel.ts"
 
 type Props = {
-  activeCodes: KeyboardEvent["code"][]
-  activeKeys: Set<KeyboardEvent["key"]>
-  collisions: Chord[]
+  customChords: Chord[]
+  pinnedCodes: Set<string>
+  collisions: ExistingKeyChord[]
+  eventCodes: Set<string>
+  activeKeys: Set<string>
 }
 
 export const Collisions: FC<Props> = ({
-  activeCodes,
-  activeKeys,
   collisions,
+  activeKeys,
+  pinnedCodes,
+  eventCodes,
 }) => {
-  const [chordRef] = useAutoAnimate()
-  const [collisionsRef] = useAutoAnimate()
-  const osCollisionCount = useMemo(
-    () =>
-      collisions.reduce((acc, curr) => {
-        return acc.add(curr.os)
-      }, new Set()).size,
-    [collisions]
-  )
+  const { chordRef, collisionsRef, osCollisionCount } =
+    useCollisionsViewModel(collisions)
 
   return (
     <div className={"flex-grow md:pr-8 overflow-y-auto"} ref={chordRef}>
       <CurrentChord
         key={"current-chord"}
-        activeKeyDefinitions={activeCodes.map(
+        activeKeyDefinitions={[...pinnedCodes, ...eventCodes].map(
           (code) => appleQuertyKeymappings[code]
         )}
       />
