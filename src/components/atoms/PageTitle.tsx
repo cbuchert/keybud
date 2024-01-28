@@ -9,6 +9,7 @@ export const PageTitle: FC = () => {
         together.
       </h2>
       <p>
+        Read the{" "}
         <a
           href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent"
           className={
