@@ -2,9 +2,9 @@ import { FC } from "react"
 
 export const PageTitle: FC = () => {
   return (
-    <header className={"mb-24 mt-8"}>
+    <header className={"mb-20 mt-8"}>
       <h1 className={"text-6xl mb-2 font-extrabold text-slate-700"}>Keybud</h1>
-      <h2 className={"text-2xl text-gray-400 font-light italic"}>
+      <h2 className={"text-2xl mb-4 text-gray-400 font-light italic"}>
         Let's not ignorantly clobber your user's existing keyboard shortcuts,
         together.
       </h2>
