@@ -13,6 +13,7 @@ export const App = () => {
     setPinnedCodes,
     activeKeys,
     collisions,
+    possibleNextCollisions,
     eventCodes,
     omittedBrowsers,
     setOmittedBrowsers,
@@ -38,9 +39,7 @@ export const App = () => {
             setPinnedCodes={setPinnedCodes}
             collisions={collisions}
             eventCodes={eventCodes}
-            activeKeys={activeKeys}
-            omittedBrowsers={omittedBrowsers}
-            omittedOses={omittedOses}
+            possibleNextCollisions={possibleNextCollisions}
           />
           <Attribution />
         </div>

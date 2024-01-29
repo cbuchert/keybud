@@ -1,20 +1,10 @@
-import { existingKeyChords } from "../data/existingKeyChords"
-import { Browser } from "../types/Browser.ts"
-import { Os } from "../types/Os.ts"
+import { ExistingKeyChord } from "../types/ExistingKeyChord.ts"
 
 export const getPossibleNextCollisions = (
-  omittedOses: Os[],
-  omittedBrowsers: Browser[],
+  availableKeyChords: ExistingKeyChord[],
   activeKeys: Set<KeyboardEvent["key"]>
 ) => {
-  return existingKeyChords.filter((chord) => {
-    if (
-      omittedOses.includes(chord.os) ||
-      omittedBrowsers.includes(chord.browser)
-    ) {
-      return false
-    }
-
+  return availableKeyChords.filter((chord) => {
     const hasOneMoreKey = chord.keys.size === activeKeys.size + 1
 
     if (!hasOneMoreKey) {

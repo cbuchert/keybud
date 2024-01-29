@@ -1,22 +1,11 @@
-import { Dispatch, SetStateAction, useCallback, useMemo } from "react"
-import { Browser } from "../../types/Browser.ts"
-import { Os } from "../../types/Os.ts"
+import { Dispatch, SetStateAction, useCallback } from "react"
 import { getCodeIsModifier } from "../../utils/getCodeIsModifier.ts"
-import { getPossibleNextCollisions } from "../../utils/getPossibleNextCollisions.ts"
 
 export const useInteractiveKeyboardViewModel = (
-  omittedOses: Os[],
-  omittedBrowsers: Browser[],
-  activeKeys: Set<string>,
   eventCodes: Set<string>,
   pinnedCodes: Set<string>,
   setPinnedCodes: Dispatch<SetStateAction<Set<string>>>
 ) => {
-  const possibleNextCollisions = useMemo(
-    () => getPossibleNextCollisions(omittedOses, omittedBrowsers, activeKeys),
-    [omittedOses, omittedBrowsers, activeKeys]
-  )
-
   const handleClick = useCallback(
     (code: KeyboardEvent["code"]) => () => {
       const hasActiveNonModifier = [...eventCodes, ...pinnedCodes].some(
@@ -54,7 +43,6 @@ export const useInteractiveKeyboardViewModel = (
   )
 
   return {
-    possibleNextCollisions,
     handleClick,
   }
 }

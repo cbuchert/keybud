@@ -3,7 +3,6 @@ import { getCodeIsModifier } from "../utils/getCodeIsModifier.ts"
 import { getKeyboardEventCodes } from "../utils/getKeyboardEventCodes.ts"
 
 export const useKeypress = (pinnedCodes: Set<KeyboardEvent["code"]>) => {
-  const [keyboardEvent, setKeyboardEvent] = useState<KeyboardEvent | null>(null)
   const [eventCodes, setEventCodes] = useState<Set<KeyboardEvent["code"]>>(
     new Set()
   )
@@ -12,7 +11,6 @@ export const useKeypress = (pinnedCodes: Set<KeyboardEvent["code"]>) => {
     const handleKeyPressEvent = (event: KeyboardEvent) => {
       event.preventDefault()
 
-      setKeyboardEvent(event)
       setEventCodes(() => {
         return new Set(
           [...getKeyboardEventCodes(event)].filter((code) => {
@@ -30,7 +28,6 @@ export const useKeypress = (pinnedCodes: Set<KeyboardEvent["code"]>) => {
     const handleKeyUpEvent = (event: KeyboardEvent) => {
       event.preventDefault()
 
-      setKeyboardEvent(null)
       setEventCodes(new Set())
     }
 
@@ -44,7 +41,6 @@ export const useKeypress = (pinnedCodes: Set<KeyboardEvent["code"]>) => {
   }, [pinnedCodes])
 
   return {
-    keyboardEvent,
     eventCodes,
   }
 }

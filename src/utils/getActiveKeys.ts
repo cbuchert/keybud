@@ -14,8 +14,11 @@ export const getActiveKeys = (
       .map((code) => {
         const keyMap = keyMappings[code]
         const shiftIndex = isShifted && keyMap.keys.length === 2 ? 1 : 0
+        const character: string = keyMap.keys[
+          shiftIndex
+        ] as KeyboardEvent["key"]
 
-        return keyMap.keys[shiftIndex] as KeyboardEvent["key"]
+        return character === " " ? "Space" : character
       })
   )
 }
