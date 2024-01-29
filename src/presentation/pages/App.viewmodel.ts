@@ -15,7 +15,7 @@ export const useAppViewModel = () => {
   const [pinnedCodes, setPinnedCodes] = useState<Set<KeyboardEvent["code"]>>(
     new Set()
   )
-  const eventCodes = useKeypress(pinnedCodes)
+  const { eventCodes } = useKeypress(pinnedCodes)
   const activeKeys = useMemo(
     () =>
       getActiveKeys(
@@ -40,16 +40,16 @@ export const useAppViewModel = () => {
   }
 
   return {
-    customChords,
-    addCustomChord,
+    pinnedCodes,
+    setPinnedCodes,
+    activeKeys,
+    collisions,
+    eventCodes,
     omittedBrowsers,
     setOmittedBrowsers,
     omittedOses,
     setOmittedOses,
-    collisions,
-    eventCodes,
-    pinnedCodes,
-    setPinnedCodes,
-    activeKeys,
+    customChords,
+    addCustomChord,
   }
 }

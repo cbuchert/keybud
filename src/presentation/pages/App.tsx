@@ -9,12 +9,11 @@ import { useAppViewModel } from "./App.viewmodel.ts"
 
 export const App = () => {
   const {
-    customChords,
     pinnedCodes,
     setPinnedCodes,
+    activeKeys,
     collisions,
     eventCodes,
-    activeKeys,
     omittedBrowsers,
     setOmittedBrowsers,
     omittedOses,
@@ -45,13 +44,7 @@ export const App = () => {
           />
           <Attribution />
         </div>
-        <Collisions
-          customChords={customChords}
-          pinnedCodes={pinnedCodes}
-          collisions={collisions}
-          eventCodes={eventCodes}
-          activeKeys={activeKeys}
-        />
+        <Collisions collisions={collisions} activeKeys={activeKeys} />
       </div>
     </div>
   )
