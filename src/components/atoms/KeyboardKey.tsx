@@ -15,7 +15,7 @@ type Props = {
   onClick: () => void
 }
 
-export const Key: FC<Props> = ({
+export const KeyboardKey: FC<Props> = ({
   keyDefinition,
   mmHeight,
   mmWidth,

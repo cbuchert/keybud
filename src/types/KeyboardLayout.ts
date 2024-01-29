@@ -1,7 +1,3 @@
-type Code = KeyboardEvent["code"]
-type Key = {
-  code: Code
-  mmWidth?: number
-  mmHeight?: number
-}
+import { Key } from "./Key.ts"
+
 export type KeyboardLayout = (Key | Key[])[][]
