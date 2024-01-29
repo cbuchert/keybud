@@ -10,6 +10,8 @@ export const CurrentChord: FC<Props> = ({ activeKeys }) => {
   }
 
   return (
-    <h2 className={"text-3xl font-bold mb-4"}>{[...activeKeys].join(" + ")}</h2>
+    <h2 className={"text-3xl font-bold mb-4"}>
+      {[...activeKeys].map((key) => (key === " " ? "Space" : key)).join(" + ")}
+    </h2>
   )
 }

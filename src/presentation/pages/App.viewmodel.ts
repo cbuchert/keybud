@@ -42,13 +42,13 @@ export const useAppViewModel = () => {
   )
   const collisions = useMemo(
     () =>
-      existingKeyChords.filter(
+      availableKeyChords.filter(
         (chord) =>
           !omittedOses.includes(chord.os) &&
           !omittedBrowsers.includes(chord.browser) &&
           isEqual(activeKeys, chord.keys)
       ),
-    [omittedOses, omittedBrowsers, activeKeys]
+    [availableKeyChords, omittedOses, omittedBrowsers, activeKeys]
   )
 
   const addCustomChord = (chord: Chord) => {
