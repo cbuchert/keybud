@@ -9,7 +9,7 @@ import { Os } from "../../types/Os.ts"
 import { getActiveKeys } from "../../utils/getActiveKeys.ts"
 import { getPossibleNextCollisions } from "../../utils/getPossibleNextCollisions.ts"
 
-export const useAppViewModel = () => {
+export const useHomeViewModel = () => {
   const [customChords, setCustomChords] = useState<Chord[]>([])
   const [omittedOses, setOmittedOses] = useState<Os[]>([])
   const [omittedBrowsers, setOmittedBrowsers] = useState<Browser[]>([])

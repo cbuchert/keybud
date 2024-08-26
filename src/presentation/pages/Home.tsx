@@ -1,13 +1,11 @@
-import { Attribution } from "../../components/atoms/Attribution.tsx"
-import { PageTitle } from "../../components/atoms/PageTitle.tsx"
 import { Filters } from "../../components/molecules/Filters.tsx"
 import { browsers } from "../../data/browsers.ts"
 import { oses } from "../../data/oses.ts"
 import { Collisions } from "../views/Collisions.tsx"
 import { InteractiveKeyboard } from "../views/InteractiveKeyboard.tsx"
-import { useAppViewModel } from "./App.viewmodel.ts"
+import { useHomeViewModel } from "./Home.viewmodel.ts"
 
-export const App = () => {
+export const Home = () => {
   const {
     pinnedCodes,
     setPinnedCodes,
@@ -19,11 +17,10 @@ export const App = () => {
     setOmittedBrowsers,
     omittedOses,
     setOmittedOses,
-  } = useAppViewModel()
+  } = useHomeViewModel()
 
   return (
-    <div className={"flex flex-col gap-12 lg:gap-0 mx-8"}>
-      <PageTitle />
+    <div>
       <Filters
         oses={oses}
         omittedOses={omittedOses}
@@ -33,16 +30,13 @@ export const App = () => {
         setOmittedBrowsers={setOmittedBrowsers}
       />
       <div className={"flex gap-8"}>
-        <div>
-          <InteractiveKeyboard
-            pinnedCodes={pinnedCodes}
-            setPinnedCodes={setPinnedCodes}
-            collisions={collisions}
-            eventCodes={eventCodes}
-            possibleNextCollisions={possibleNextCollisions}
-          />
-          <Attribution />
-        </div>
+        <InteractiveKeyboard
+          pinnedCodes={pinnedCodes}
+          setPinnedCodes={setPinnedCodes}
+          collisions={collisions}
+          eventCodes={eventCodes}
+          possibleNextCollisions={possibleNextCollisions}
+        />
         <Collisions collisions={collisions} activeKeys={activeKeys} />
       </div>
     </div>
