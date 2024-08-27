@@ -26,13 +26,15 @@ export const InteractiveKeyboard: FC<Props> = ({
   const unitLength = 0.25
 
   return (
-    <MagicKeyboard
-      unitLength={unitLength}
-      collisions={collisions}
-      possibleNextCollisions={possibleNextCollisions}
-      onKeyClick={handleClick}
-      eventCodes={eventCodes}
-      pinnedCodes={pinnedCodes}
-    />
+    <div>
+      <MagicKeyboard
+        unitLength={unitLength}
+        collisions={collisions}
+        possibleNextCollisions={possibleNextCollisions}
+        onKeyClick={handleClick}
+        eventCodes={eventCodes}
+        pinnedCodes={pinnedCodes}
+      />
+    </div>
   )
 }
