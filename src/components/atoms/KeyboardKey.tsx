@@ -36,6 +36,7 @@ export const KeyboardKey: FC<Props> = ({
     return (
       <button
         type={"button"}
+        disabled={true}
         className={"rounded border border-dashed border-gray-400"}
         style={{
           gap: `${unitLength * 0.5}rem`,
